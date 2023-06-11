@@ -1,0 +1,57 @@
+.text {
+    -unity-font-definition: url('project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&guid=b4aa52b4be3ed8746a8a6fa7d631ec33&type=2#PretendardVariable UI');
+    -unity-text-align: middle-center;
+    color: rgba(255, 255, 255, 255);
+}
+
+.pause-window {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.51);
+    visibility: hidden;
+}
+
+.pause-window.on {
+    visibility: visible;
+}
+
+.pause-text {
+    font-size: 64px;
+}
+
+.socket-window {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.user-cnt {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    transform-origin: right top;
+    -unity-font-definition: url('project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&guid=b4aa52b4be3ed8746a8a6fa7d631ec33&type=2#PretendardVariable UI');
+    font-size: 48px;
+}
+
+.connection {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.connection-text {
+    font-size: 24px;
+}
+
+.connection-status {
+    background-image: url('project://database/Assets/09.Sprites/status-disconnected.256x256.png?fileID=2800000&guid=79fad433ed3c682478b8fbe931a0e1a9&type=3#status-disconnected.256x256');
+    width: 30px;
+    height: 30px;
+    margin-right: 7px;
+}

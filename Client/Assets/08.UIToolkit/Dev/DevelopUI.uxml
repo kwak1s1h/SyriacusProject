@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08.UIToolkit/Dev/DevelopUI.uss?fileID=7433441132597879392&amp;guid=950adef78b7b70847b8638b88bad9641&amp;type=3#DevelopUI" />
+    <ui:VisualElement name="PauseWindow" class="pause-window on">
+        <ui:Label text="Not Ready" display-tooltip-when-elided="true" name="PauseText" class="pause-text text" />
+    </ui:VisualElement>
+    <ui:VisualElement name="SocketInfo" class="socket-window">
+        <ui:Label text="1 / 4" display-tooltip-when-elided="true" name="UserCount" class="user-cnt text" />
+        <ui:VisualElement name="Connection" class="connection">
+            <ui:VisualElement name="Status" class="connection-status" />
+            <ui:Label text="Disconnect" display-tooltip-when-elided="true" name="Text" class="text connection-text" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

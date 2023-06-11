@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08.UIToolkit/Lobby/LobbyUI.uss?fileID=7433441132597879392&amp;guid=a42769fa0e3dfc843a0809856bae8a6a&amp;type=3#LobbyUI" />
+    <ui:VisualElement name="MenuContainer" class="container" style="left: 100%;">
+        <ui:Label text="무궁화 꽃이 피었습니다" display-tooltip-when-elided="true" name="GameTitle" style="-unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); -unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); font-size: 103px; -unity-text-align: middle-center; position: absolute; top: 20%; left: 0; right: 0; -unity-font-style: normal;" />
+        <ui:VisualElement name="BtnList" style="position: absolute; top: 50%; right: 25%; left: 25%; align-items: center; justify-content: flex-start;">
+            <ui:Button text="플레이" display-tooltip-when-elided="true" focusable="false" name="PlayBtn" class="lobbyBtn" />
+            <ui:Button text="설정" display-tooltip-when-elided="true" focusable="false" name="SettingBtn" class="lobbyBtn" />
+            <ui:Button text="나가기" display-tooltip-when-elided="true" focusable="false" name="QuitBtn" class="lobbyBtn" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="ChosePlayMode" class="container" style="left: 100%;">
+        <ui:Button text="멀티플레이" display-tooltip-when-elided="true" name="MultiPlayBtn" focusable="false" class="modeBtn" />
+        <ui:Button text="싱글플레이" display-tooltip-when-elided="true" name="SinglePlayBtn" focusable="false" class="modeBtn" />
+    </ui:VisualElement>
+    <ui:VisualElement name="MultiModeContainer" class="container">
+        <ui:VisualElement name="Window" style="width: 70%; height: 70%; background-color: rgb(255, 255, 255); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; flex-direction: row; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 30px;">
+            <ui:VisualElement name="RoomList" class="list-container">
+                <ui:Label text="방 목록" display-tooltip-when-elided="true" enable-rich-text="false" name="Label" style="-unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); -unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); font-size: 25px; -unity-text-align: middle-center; width: 100%; -unity-font-style: bold; flex-shrink: 1; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;" />
+                <ui:GroupBox name="List" class="list">
+                    <ui:VisualElement name="Room" class="room list-element">
+                        <ui:VisualElement name="NameContanier" class="room-name-container">
+                            <ui:Label text="엄청나게긴방의이름입니다너무길어서UI가꺠질수도있겠어요" display-tooltip-when-elided="true" enable-rich-text="true" name="RoomName" style="font-size: 20px; -unity-text-align: middle-left;" />
+                            <ui:Button text="입장하기" display-tooltip-when-elided="true" name="JoinBtn" />
+                        </ui:VisualElement>
+                        <ui:Label text="1 / 4" display-tooltip-when-elided="true" enable-rich-text="false" name="CurrentUsers" style="font-size: 18px; -unity-text-align: middle-left;" />
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:VisualElement>
+            <ui:VisualElement name="CreateRoom" class="list-container" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                <ui:Label text="방 만들기" display-tooltip-when-elided="true" enable-rich-text="false" name="Label" style="-unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); -unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); font-size: 25px; -unity-text-align: middle-center; width: 100%; -unity-font-style: bold; flex-shrink: 1; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;" />
+                <ui:VisualElement name="OptionList" class="list">
+                    <ui:VisualElement name="NameOption" class="list-element option">
+                        <ui:TextField picking-mode="Ignore" label="방 이름" multiline="true" style="-unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); -unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); font-size: 21px; justify-content: space-between; width: 100%; -unity-text-align: middle-left;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

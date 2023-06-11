@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08.UIToolkit/Manager/ManagerUI.uss?fileID=7433441132597879392&amp;guid=30868ba535eed7c439045bcda0b8eef4&amp;type=3#ManagerUI" />
+    <ui:VisualElement name="ErrorWindow">
+        <ui:VisualElement name="Popup">
+            <ui:Label text="서버 연결에 실패했습니다." display-tooltip-when-elided="true" name="ErrorText" style="-unity-text-align: middle-center; -unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); -unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); font-size: 36px;" />
+            <ui:Button text="닫기" display-tooltip-when-elided="true" name="CloseBtn" style="width: 150px; -unity-font-definition: url(&apos;project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&amp;guid=b4aa52b4be3ed8746a8a6fa7d631ec33&amp;type=2#PretendardVariable UI&apos;); -unity-font: url(&apos;project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&amp;guid=167bedf6e0c7da14caae7ca817cf874a&amp;type=3#PretendardVariable&apos;); font-size: 23px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

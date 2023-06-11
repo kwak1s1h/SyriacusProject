@@ -1,0 +1,128 @@
+.lobbyBtn {
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 75px;
+    margin-bottom: 15px;
+    -unity-font-definition: url('project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&guid=b4aa52b4be3ed8746a8a6fa7d631ec33&type=2#PretendardVariable UI');
+    -unity-font: url('project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&guid=167bedf6e0c7da14caae7ca817cf874a&type=3#PretendardVariable');
+    font-size: 32px;
+    -unity-text-align: middle-center;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    transition-duration: 0.2s;
+    -unity-font-style: normal;
+    width: 500px;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    transition-duration: 0.1s;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+}
+
+.modeBtn {
+    flex-grow: 0;
+    flex-shrink: 1;
+    height: 150px;
+    margin-bottom: 40px;
+    -unity-font-definition: url('project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&guid=b4aa52b4be3ed8746a8a6fa7d631ec33&type=2#PretendardVariable UI');
+    -unity-font: url('project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&guid=167bedf6e0c7da14caae7ca817cf874a&type=3#PretendardVariable');
+    font-size: 47px;
+    -unity-text-align: middle-center;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    transition-duration: 0.2s;
+    -unity-font-style: normal;
+    width: 750px;
+}
+
+.list-element {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(128, 128, 128);
+    border-right-color: rgb(128, 128, 128);
+    border-top-color: rgb(128, 128, 128);
+    border-bottom-color: rgb(128, 128, 128);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    height: 70px;
+}
+
+.list {
+    flex-grow: 1;
+    align-items: flex-start;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.list-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(130, 130, 130);
+    border-right-color: rgb(130, 130, 130);
+    border-top-color: rgb(130, 130, 130);
+    border-bottom-color: rgb(130, 130, 130);
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.room {
+}
+
+.room-name-container {
+    flex-direction: row;
+}
+
+.room > .room-name-container > #JoinBtn {
+    display: flex;
+    visibility: hidden;
+    transition-duration: 0.2s;
+    opacity: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.room:hover > .room-name-container > #JoinBtn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.option {
+    height: 100px;
+}

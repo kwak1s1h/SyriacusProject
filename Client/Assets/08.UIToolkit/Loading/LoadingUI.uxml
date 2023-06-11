@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/08.UIToolkit/Loading/LoadingUI.uss?fileID=7433441132597879392&amp;guid=722f03c45cfff72419d26d9465f33062&amp;type=3#LoadingUI" />
+    <ui:ProgressBar title="Loading..." name="LoadingProgress" value="5" style="position: absolute; bottom: 5%; right: 5%; left: 5%; height: 75px; flex-direction: column-reverse;" />
+</ui:UXML>
