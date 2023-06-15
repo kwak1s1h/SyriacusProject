@@ -1,5 +1,5 @@
 import Session, { SessionState } from "../Session/Session";
-import Room from "./Room";
+import Room, { RoomInfo } from "./Room";
 
 export default class RoomManager
 {
@@ -19,6 +19,8 @@ export default class RoomManager
         
         let room: Room = new Room(name, owner);
         this.roomMap.set(name, room);
+
+        // TODO: broadcast all user that state is NONE
         return room;
     }
 
@@ -26,9 +28,21 @@ export default class RoomManager
         let room = this.roomMap.get(name);
         if(room) {
             room.members.forEach(session => {
-                
+                // Send Exit Data
             });
             this.roomMap.delete(name);
         }
+    }
+
+    getRoom(name: string): Room | undefined {
+        return this.roomMap.get(name);
+    }
+
+    getAllRoomInfo(): RoomInfo[] {
+        let result: RoomInfo[] = [];
+        this.roomMap.forEach(room => {
+            result.push(room.getInfo());
+        });
+        return result;
     }
 }

@@ -7,6 +7,9 @@ using System;
 
 public class DevelopUI : MonoBehaviour
 {
+    private static DevelopUI _instance;
+    public static DevelopUI Instance => _instance;
+    
     private UIDocument _uiDoc;
 
     // Socket Info
@@ -21,6 +24,13 @@ public class DevelopUI : MonoBehaviour
 
     private void Awake()
     {
+        if(_instance != null)
+        {
+            Debug.LogError("Multiple DevelopUI Instance is running. Destroy this");
+            Destroy(this);
+        }
+        _instance = this;
+
         _uiDoc = GetComponent<UIDocument>();
     }
 
@@ -42,10 +52,15 @@ public class DevelopUI : MonoBehaviour
         SocketManager.Instance.OnDisconnect += () => SetConnection(false);
     }
 
-    private void SetConnection(bool value)
+    public void SetConnection(bool value)
     {
         _connectionText.text = value ? "Connect" : "Disconnect";
         _connectionStatus.style.backgroundImage = new StyleBackground(value ? _connectIcon : _disconnectIcon);
         if(!value) _userCount.text = "? / ?";
+    }
+
+    public void SetUserCount(int current, int max = 4)
+    {
+        _userCount.text = $"{current} / {max}";
     }
 }

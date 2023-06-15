@@ -3,10 +3,10 @@ import Session, { SessionState } from "../Session/Session";
 import { PacketHandler } from "../packet/PacketManager";
 import { MSGID, MoveData } from "../packet/packet";
 
-export const MoveDataHandler: PacketHandler = {
+module.exports = {
     code: MSGID.MOVEDATA,
     handle: function (session: Session, data: Uint8Array): void {
-        if(session.state != SessionState.INGAME) return;
+        if(session.state != SessionState.INGAME || !session.room) return;
 
         let moveData: MoveData = MoveData.deserialize(data);
         session.speed = moveData.speed;

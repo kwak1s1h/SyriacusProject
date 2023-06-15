@@ -2,6 +2,7 @@ import WS, { RawData } from "ws";
 import { MSGID, Position } from "../packet/packet";
 import PacketManager from "../packet/PacketManager";
 import Room from "../Room/Room";
+import { types } from "../Types";
 
 export default class Session
 {
@@ -20,8 +21,8 @@ export default class Session
 
     constructor(socket: WS, id: string) {
         this.socket = socket;
-        // this.state = SessionState.DEFAULT;
-        this.state = SessionState.INGAME;
+        // this.state = SessionState.NONE;
+        this.state = SessionState.INLOBBY;
         this.id = id;
 
         this.position = new Position({x: 0, y: 0, z: 0});
@@ -54,11 +55,27 @@ export default class Session
         let code:number = this.getInt16LEFromBuffer(data.slice(2, 4) as Buffer);
         PacketManager.Instance.handleMessage(this, data.slice(4) as Buffer, code);
     }
+
+    getSessionInfo(): SessionInfo {
+        let info: SessionInfo = {
+            id: this.id,
+            position: {
+                x: this.position.x,
+                y: this.position.y,
+                z: this.position.z
+            },
+            playerType: this.playerType,
+            speed: this.speed,
+            yRotation: this.yRotation
+        };
+        return info;
+    }
 }
 
 export enum SessionState
 {
-    DEFAULT,
+    NONE,
+    INLOBBY,
     INGAME
 }
 
@@ -67,4 +84,13 @@ export enum PlayerType
     NONE,
     CHASER,
     TARGET
+}
+
+export interface SessionInfo 
+{
+    id: string
+    position: types.Position;
+    playerType: PlayerType;
+    yRotation: number;
+    speed: number;
 }

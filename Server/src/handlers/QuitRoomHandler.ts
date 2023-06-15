@@ -1,11 +1,14 @@
 import Session from "../Session/Session";
 import { PacketHandler } from "../packet/PacketManager";
-import { MSGID, MsgBox } from "../packet/packet";
+import { MSGID } from "../packet/packet";
 
 module.exports = {
-    code: MSGID.MSGBOX,
+    code: MSGID.QUITROOM,
     handle: function (session: Session, data: Uint8Array): void {
-        let box = MsgBox.deserialize(data);
-        console.log(`${session.id}: ${box.context}`);
+        let room = session.room;
+        if(room) 
+        {
+            room.exit(session);
+        }
     }
 }

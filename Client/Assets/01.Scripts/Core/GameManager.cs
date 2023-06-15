@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         SocketManager.Instance = gameObject.AddComponent<SocketManager>();
         SocketManager.Instance.Init($"ws://{hostname}:{port}");
 
-        SocketManager.Instance.OnDisconnect += () => _managerUI.PopupError("서버 연결에 실패했습니다.", "게임 종료", Application.Quit, 0.4f);
+        SocketManager.Instance.OnDisconnect += () => _managerUI.PopupError("서버 연결에 실패했습니다.", "게임 종료", QuitApp, 0.4f);
 
         await SocketManager.Instance.Connection();
         LoadSceneAsync(1);
@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
         while(!operation.isDone)
         {
             _loadingUI.SetProgressBar(Mathf.MoveTowards(operation.progress * 100f, 100f, Time.deltaTime));
+            if(operation.progress >= 0.9f) 
+            {
+                yield return new WaitForSeconds(0.75f);
+                operation.allowSceneActivation = true;
+            }
             yield return null;
         }
         _loadingUI.ShowProgressBar(false);
@@ -65,5 +70,14 @@ public class GameManager : MonoBehaviour
     public void PopupError(string title, string button, Action closeCallback = null, float delay = 0f)
     {
         _managerUI.PopupError(title, button, closeCallback, delay);
+    }
+
+    public void QuitApp()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
     }
 }

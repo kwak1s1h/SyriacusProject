@@ -5,6 +5,13 @@ option csharp_namespace = "Packet";
 enum MSGID {
     MSGBOX = 0;
     MOVEDATA = 1;
+    JOINROOM = 2;
+    JOINROOMREQ = 3;
+    JOINROOMRES = 4;
+    ROOMCREATED = 5;
+    CREATEROOMREQ = 6;
+    CREATEROOMRES = 7;
+    QUITROOM = 8;
 }
 
 message MsgBox {
@@ -23,4 +30,37 @@ message Position {
     float x = 1;
     float y = 2;
     float z = 3;
+}
+
+message CreateRoomReq {
+    string roomName = 1;
+}
+
+message CreateRoomRes {
+    bool success = 1;
+    Room room = 2;
+}
+
+message JoinRoom {
+    string id = 1;
+    int32 userCount = 2;
+}
+
+message JoinRoomReq {
+    string roomName = 1;
+}
+
+message JoinRoomRes {
+    bool success = 1;
+    int32 userCount = 2;
+    repeated string userList = 3;
+}
+
+message QuitRoom {
+    string id = 1;
+}
+
+message Room {
+    string name = 1;
+    int32 userCount = 2;
 }

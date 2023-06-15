@@ -5,9 +5,16 @@ import crypto from "crypto";
 import PacketManager from "./packet/PacketManager";
 import SessionManager from "./Session/SessionManager";
 import RoomManager from "./Room/RoomManager";
-import Room from "./Room/Room";
 
 const App = Express();
+
+App.get("/rooms", (req, res) => {
+    res.json(RoomManager.Instance.getAllRoomInfo());
+});
+
+App.get("/sessions", (req, res) => {
+    res.json(SessionManager.Instance.getAllSessionInfo());
+})
 
 const httpServer = App.listen(30000);
 
@@ -24,6 +31,7 @@ wsServer.on("listening", () => {
 wsServer.on("connection", (socket, req) => {
     console.log("새로운 클라 들어옴");
     let session = new Session(socket, crypto.randomUUID());
+    SessionManager.Instance.addSession(session);
     
     socket.on("message", (data: WS.RawData, isBinary: boolean) => {
         if(isBinary)
@@ -32,6 +40,7 @@ wsServer.on("connection", (socket, req) => {
 
     socket.on('close', (code, reason) => {
         if(session.room) session.room.exit(session);
+        SessionManager.Instance.removeSession(session.id);
         console.log(`클라 나감 이유는 ${reason.toString()}`);
     });
 });

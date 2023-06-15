@@ -1,44 +1,61 @@
 import Room from "../Room/Room";
 import RoomManager from "../Room/RoomManager";
-import Session from "./Session";
+import Session, { SessionInfo } from "./Session";
 
 export default class SessionManager
 {
     static Instance: SessionManager;
 
-    private sessionMap: Map<string, Session>;
+    private sessionMap: { [key: string]: Session | undefined };
+    sessionCnt: number;
 
     constructor() {
-        this.sessionMap = new Map<string, Session>();
+        this.sessionMap = {};
+        this.sessionCnt = 0;
     }
 
     addSession(session: Session) {
+        if(!this.sessionMap[session.id])
+        this.sessionMap[session.id] = session;
+
         // Debug
-        if(this.sessionMap.size <= 0) {
+        console.log(this.sessionCnt);
+        if(this.sessionCnt <= 0) {
             RoomManager.testRoom = RoomManager.Instance.createRoom("test", session);
         }
+        else RoomManager.testRoom?.join(session);
 
-        if(!this.sessionMap.has(session.id))
-            this.sessionMap.set(session.id, session);
+        this.sessionCnt++;
     }
 
     removeSession(id: string): void {
-        let session = this.sessionMap.get(id);
+        let session = this.sessionMap[id];
         if(session) {
             if(session.room) {
                 session.room.exit(session);
             }
-            this.sessionMap.delete(id);
+            delete this.sessionMap[id];
+            this.sessionCnt--;
         }
     }
 
     getSession(id: string): Session | undefined {
-        return this.sessionMap.get(id);
+        return this.sessionMap[id];
     }
 
     broadcastAll(data: Uint8Array, code: number): void {
-        this.sessionMap.forEach((session, id) => {
-            session.sendData(data, code);
+        Object.values(this.sessionMap).forEach((session) => {
+            if(session)
+                session.sendData(data, code);
         });
+    }
+
+    getAllSessionInfo(): SessionInfo[] {
+        let list: SessionInfo[] = [];
+        Object.values(this.sessionMap).forEach(session => {
+            if(session)
+                list.push(session.getSessionInfo());
+        });
+        return list;
     }
 }

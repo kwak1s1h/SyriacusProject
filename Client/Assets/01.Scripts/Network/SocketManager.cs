@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Net.WebSockets;
 using Google.Protobuf;
 using System.Threading.Tasks;
+using Packet;
 
 public class SocketManager : MonoBehaviour
 {
@@ -15,8 +16,7 @@ public class SocketManager : MonoBehaviour
     private string _url;
     
     [SerializeField] private bool _isConnected = false;
-    private bool _isReadyToSend = false
-    ;
+    private bool _isReadyToSend = false;
     private RecvBuffer _recvBuffer;
     private PacketManager _packetManager;
     private Queue<PacketMessage> _sendQueue;
@@ -46,6 +46,7 @@ public class SocketManager : MonoBehaviour
         {
             await _socket.ConnectAsync(serverUri, CancellationToken.None);
             _isConnected = true;
+            _isReadyToSend = true;
             OnConnect?.Invoke();
             ReceiveLoop();
         }
@@ -53,6 +54,7 @@ public class SocketManager : MonoBehaviour
         {
             Debug.LogError("Connection Error : check server status... " + ex.Message);
             _isConnected = false;
+            _isReadyToSend = false;
             OnDisconnect?.Invoke();
             throw;
         }
@@ -60,7 +62,7 @@ public class SocketManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        Disconnect();
+        Disconnect("OnDestoy");
     }
 
     private void Update()
@@ -88,7 +90,7 @@ public class SocketManager : MonoBehaviour
         }
     }
 
-    public void RegisterSend(ushort code, IMessage msg)
+    public void RegisterSend(MSGID code, IMessage msg)
     {
         _sendQueue.Enqueue(new PacketMessage { Id = (ushort)code, Message = msg });
     }
@@ -138,7 +140,7 @@ public class SocketManager : MonoBehaviour
                         int readByte = ProcessPacket(_recvBuffer.ReadSegment);
                         if (readByte == 0)
                         {
-                            Disconnect();
+                            Disconnect("unexpected packet");
                             break;
                         }
 
@@ -161,12 +163,16 @@ public class SocketManager : MonoBehaviour
             {
                 Debug.LogError(we.Message);
                 OnDisconnect?.Invoke();
+                _isConnected = false;
+                _isReadyToSend = false;
                 break;
             }
             catch (Exception e)
             {
                 Debug.LogError($"{e.GetType()} : {e.Message}");
                 OnDisconnect?.Invoke();
+                _isConnected = false;
+                _isReadyToSend = false;
                 break;
             }
         }
@@ -177,12 +183,14 @@ public class SocketManager : MonoBehaviour
         return _packetManager.OnRecvPacket(buffer);
     }
 
-    public void Disconnect()
+    #nullable enable
+    public void Disconnect(string reason = "quit_client")
     {
         if (_socket != null && _socket.State == WebSocketState.Open)
         {
-            _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "quit_client", CancellationToken.None);
+            _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, reason, CancellationToken.None);
             _isConnected = false;
+            _isReadyToSend = false;
             OnDisconnect?.Invoke();
         }
     }
