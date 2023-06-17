@@ -29,8 +29,8 @@ wsServer.on("listening", () => {
 });
 
 wsServer.on("connection", (socket, req) => {
-    console.log("새로운 클라 들어옴");
     let session = new Session(socket, crypto.randomUUID());
+    console.log(`새로운 클라 들어옴 id: ${session.id}`);
     SessionManager.Instance.addSession(session);
     
     socket.on("message", (data: WS.RawData, isBinary: boolean) => {

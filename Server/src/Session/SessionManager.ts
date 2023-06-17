@@ -6,45 +6,39 @@ export default class SessionManager
 {
     static Instance: SessionManager;
 
-    private sessionMap: { [key: string]: Session | undefined };
+    private sessionMap: Map<string, Session>;
     sessionCnt: number;
 
     constructor() {
-        this.sessionMap = {};
+        this.sessionMap = new Map<string, Session>();
         this.sessionCnt = 0;
     }
 
     addSession(session: Session) {
-        if(!this.sessionMap[session.id])
-        this.sessionMap[session.id] = session;
-
-        // Debug
-        console.log(this.sessionCnt);
-        if(this.sessionCnt <= 0) {
-            RoomManager.testRoom = RoomManager.Instance.createRoom("test", session);
+        if(!this.sessionMap.has(session.id))
+        {
+            this.sessionMap.set(session.id, session);
+            this.sessionCnt++;
         }
-        else RoomManager.testRoom?.join(session);
-
-        this.sessionCnt++;
     }
 
     removeSession(id: string): void {
-        let session = this.sessionMap[id];
+        let session = this.getSession(id);
         if(session) {
             if(session.room) {
                 session.room.exit(session);
             }
-            delete this.sessionMap[id];
+            this.sessionMap.delete(id);
             this.sessionCnt--;
         }
     }
 
     getSession(id: string): Session | undefined {
-        return this.sessionMap[id];
+        return this.sessionMap.get(id);
     }
 
     broadcastAll(data: Uint8Array, code: number): void {
-        Object.values(this.sessionMap).forEach((session) => {
+        this.sessionMap.forEach((session) => {
             if(session)
                 session.sendData(data, code);
         });
@@ -52,7 +46,7 @@ export default class SessionManager
 
     getAllSessionInfo(): SessionInfo[] {
         let list: SessionInfo[] = [];
-        Object.values(this.sessionMap).forEach(session => {
+        this.sessionMap.forEach(session => {
             if(session)
                 list.push(session.getSessionInfo());
         });
