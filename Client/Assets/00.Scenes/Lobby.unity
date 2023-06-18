@@ -418,3 +418,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _titleMoveHeight: 15
+  _roomUxml: {fileID: 9197481963319205126, guid: b30ebbdb8ad466c4892d5c068ed4b980, type: 3}
+  _userUxml: {fileID: 9197481963319205126, guid: 89ff3b52c07dac64685b54138ee0691e, type: 3}

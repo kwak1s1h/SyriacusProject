@@ -1,12 +1,10 @@
 import Session, { SessionState } from "../Session/Session";
+import SessionManager from "../Session/SessionManager";
 import Room, { RoomInfo } from "./Room";
 
 export default class RoomManager
 {
     static Instance: RoomManager;
-
-    // Debug
-    static testRoom: Room | undefined;
 
     private roomMap: Map<string, Room>;
 
@@ -14,10 +12,12 @@ export default class RoomManager
         this.roomMap = new Map<string, Room>();
     }
     
-    createRoom(name: string, owner: Session): Room | undefined {
+    createRoom(name: string, owner: Session, maxCnt: number): Room | undefined {
         if(this.roomMap.has(name)) return;
+        if(maxCnt < 2 || maxCnt > 6) return;
+        if(name.trim() == "") return;
         
-        let room: Room = new Room(name, owner);
+        let room: Room = new Room(name, owner, maxCnt);
         this.roomMap.set(name, room);
 
         // TODO: broadcast all user that state is NONE

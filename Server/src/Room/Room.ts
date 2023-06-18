@@ -8,10 +8,12 @@ export default class Room
     owner: Session;
     members: Set<Session>;
     memberCnt: number;
+    maxCnt: number;
 
-    constructor(name: string, owner: Session) {
+    constructor(name: string, owner: Session, maxCnt: number) {
         this.name = name;
         this.owner = owner;
+        this.maxCnt = maxCnt;
         this.members = new Set<Session>();
         this.members.add(owner);
         this.memberCnt = 1;

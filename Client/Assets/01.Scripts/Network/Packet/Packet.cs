@@ -28,30 +28,31 @@ namespace Packet {
             "TW92ZURhdGESCgoCaWQYASABKAkSDQoFc3BlZWQYAiABKAISFgoDZGlyGAMg",
             "ASgLMgkuUG9zaXRpb24SFgoDcG9zGAQgASgLMgkuUG9zaXRpb24SEQoJeVJv",
             "dGF0aW9uGAUgASgCIisKCFBvc2l0aW9uEgkKAXgYASABKAISCQoBeRgCIAEo",
-            "AhIJCgF6GAMgASgCIiEKDUNyZWF0ZVJvb21SZXESEAoIcm9vbU5hbWUYASAB",
-            "KAkiNQoNQ3JlYXRlUm9vbVJlcxIPCgdzdWNjZXNzGAEgASgIEhMKBHJvb20Y",
-            "AiABKAsyBS5Sb29tIikKCEpvaW5Sb29tEgoKAmlkGAEgASgJEhEKCXVzZXJD",
-            "b3VudBgCIAEoBSIfCgtKb2luUm9vbVJlcRIQCghyb29tTmFtZRgBIAEoCSJD",
-            "CgtKb2luUm9vbVJlcxIPCgdzdWNjZXNzGAEgASgIEhEKCXVzZXJDb3VudBgC",
-            "IAEoBRIQCgh1c2VyTGlzdBgDIAMoCSIWCghRdWl0Um9vbRIKCgJpZBgBIAEo",
-            "CSInCgRSb29tEgwKBG5hbWUYASABKAkSEQoJdXNlckNvdW50GAIgASgFKpYB",
-            "CgVNU0dJRBIKCgZNU0dCT1gQABIMCghNT1ZFREFUQRABEgwKCEpPSU5ST09N",
-            "EAISDwoLSk9JTlJPT01SRVEQAxIPCgtKT0lOUk9PTVJFUxAEEg8KC1JPT01D",
-            "UkVBVEVEEAUSEQoNQ1JFQVRFUk9PTVJFURAGEhEKDUNSRUFURVJPT01SRVMQ",
-            "BxIMCghRVUlUUk9PTRAIQgmqAgZQYWNrZXRiBnByb3RvMw=="));
+            "AhIJCgF6GAMgASgCIjIKDUNyZWF0ZVJvb21SZXESEAoIcm9vbU5hbWUYASAB",
+            "KAkSDwoHbWF4VXNlchgCIAEoBSI1Cg1DcmVhdGVSb29tUmVzEg8KB3N1Y2Nl",
+            "c3MYASABKAgSEwoEcm9vbRgCIAEoCzIFLlJvb20iKQoISm9pblJvb20SCgoC",
+            "aWQYASABKAkSEQoJdXNlckNvdW50GAIgASgFIh8KC0pvaW5Sb29tUmVxEhAK",
+            "CHJvb21OYW1lGAEgASgJIkMKC0pvaW5Sb29tUmVzEg8KB3N1Y2Nlc3MYASAB",
+            "KAgSEQoJdXNlckNvdW50GAIgASgFEhAKCHVzZXJMaXN0GAMgAygJIhYKCFF1",
+            "aXRSb29tEgoKAmlkGAEgASgJIjkKBFJvb20SDAoEbmFtZRgBIAEoCRIRCgl1",
+            "c2VyQ291bnQYAiABKAUSEAoIbWF4Q291bnQYAyABKAUqlgEKBU1TR0lEEgoK",
+            "Bk1TR0JPWBAAEgwKCE1PVkVEQVRBEAESDAoISk9JTlJPT00QAhIPCgtKT0lO",
+            "Uk9PTVJFURADEg8KC0pPSU5ST09NUkVTEAQSDwoLUk9PTUNSRUFURUQQBRIR",
+            "Cg1DUkVBVEVST09NUkVREAYSEQoNQ1JFQVRFUk9PTVJFUxAHEgwKCFFVSVRS",
+            "T09NEAhCCaoCBlBhY2tldGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Packet.MSGID), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.MsgBox), global::Packet.MsgBox.Parser, new[]{ "Context" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.MoveData), global::Packet.MoveData.Parser, new[]{ "Id", "Speed", "Dir", "Pos", "YRotation" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.Position), global::Packet.Position.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.CreateRoomReq), global::Packet.CreateRoomReq.Parser, new[]{ "RoomName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.CreateRoomReq), global::Packet.CreateRoomReq.Parser, new[]{ "RoomName", "MaxUser" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.CreateRoomRes), global::Packet.CreateRoomRes.Parser, new[]{ "Success", "Room" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.JoinRoom), global::Packet.JoinRoom.Parser, new[]{ "Id", "UserCount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.JoinRoomReq), global::Packet.JoinRoomReq.Parser, new[]{ "RoomName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.JoinRoomRes), global::Packet.JoinRoomRes.Parser, new[]{ "Success", "UserCount", "UserList" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.QuitRoom), global::Packet.QuitRoom.Parser, new[]{ "Id" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.Room), global::Packet.Room.Parser, new[]{ "Name", "UserCount" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.Room), global::Packet.Room.Parser, new[]{ "Name", "UserCount", "MaxCount" }, null, null, null, null)
           }));
     }
     #endregion
@@ -915,6 +916,7 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public CreateRoomReq(CreateRoomReq other) : this() {
       roomName_ = other.roomName_;
+      maxUser_ = other.maxUser_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -936,6 +938,18 @@ namespace Packet {
       }
     }
 
+    /// <summary>Field number for the "maxUser" field.</summary>
+    public const int MaxUserFieldNumber = 2;
+    private int maxUser_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MaxUser {
+      get { return maxUser_; }
+      set {
+        maxUser_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -952,6 +966,7 @@ namespace Packet {
         return true;
       }
       if (RoomName != other.RoomName) return false;
+      if (MaxUser != other.MaxUser) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -960,6 +975,7 @@ namespace Packet {
     public override int GetHashCode() {
       int hash = 1;
       if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
+      if (MaxUser != 0) hash ^= MaxUser.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -982,6 +998,10 @@ namespace Packet {
         output.WriteRawTag(10);
         output.WriteString(RoomName);
       }
+      if (MaxUser != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(MaxUser);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -996,6 +1016,10 @@ namespace Packet {
         output.WriteRawTag(10);
         output.WriteString(RoomName);
       }
+      if (MaxUser != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(MaxUser);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1008,6 +1032,9 @@ namespace Packet {
       int size = 0;
       if (RoomName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomName);
+      }
+      if (MaxUser != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxUser);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1023,6 +1050,9 @@ namespace Packet {
       }
       if (other.RoomName.Length != 0) {
         RoomName = other.RoomName;
+      }
+      if (other.MaxUser != 0) {
+        MaxUser = other.MaxUser;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1043,6 +1073,10 @@ namespace Packet {
             RoomName = input.ReadString();
             break;
           }
+          case 16: {
+            MaxUser = input.ReadInt32();
+            break;
+          }
         }
       }
     #endif
@@ -1060,6 +1094,10 @@ namespace Packet {
             break;
           case 10: {
             RoomName = input.ReadString();
+            break;
+          }
+          case 16: {
+            MaxUser = input.ReadInt32();
             break;
           }
         }
@@ -2196,6 +2234,7 @@ namespace Packet {
     public Room(Room other) : this() {
       name_ = other.name_;
       userCount_ = other.userCount_;
+      maxCount_ = other.maxCount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2229,6 +2268,18 @@ namespace Packet {
       }
     }
 
+    /// <summary>Field number for the "maxCount" field.</summary>
+    public const int MaxCountFieldNumber = 3;
+    private int maxCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MaxCount {
+      get { return maxCount_; }
+      set {
+        maxCount_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -2246,6 +2297,7 @@ namespace Packet {
       }
       if (Name != other.Name) return false;
       if (UserCount != other.UserCount) return false;
+      if (MaxCount != other.MaxCount) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2255,6 +2307,7 @@ namespace Packet {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (UserCount != 0) hash ^= UserCount.GetHashCode();
+      if (MaxCount != 0) hash ^= MaxCount.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2281,6 +2334,10 @@ namespace Packet {
         output.WriteRawTag(16);
         output.WriteInt32(UserCount);
       }
+      if (MaxCount != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MaxCount);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2299,6 +2356,10 @@ namespace Packet {
         output.WriteRawTag(16);
         output.WriteInt32(UserCount);
       }
+      if (MaxCount != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MaxCount);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -2314,6 +2375,9 @@ namespace Packet {
       }
       if (UserCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(UserCount);
+      }
+      if (MaxCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxCount);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2332,6 +2396,9 @@ namespace Packet {
       }
       if (other.UserCount != 0) {
         UserCount = other.UserCount;
+      }
+      if (other.MaxCount != 0) {
+        MaxCount = other.MaxCount;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2356,6 +2423,10 @@ namespace Packet {
             UserCount = input.ReadInt32();
             break;
           }
+          case 24: {
+            MaxCount = input.ReadInt32();
+            break;
+          }
         }
       }
     #endif
@@ -2377,6 +2448,10 @@ namespace Packet {
           }
           case 16: {
             UserCount = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            MaxCount = input.ReadInt32();
             break;
           }
         }

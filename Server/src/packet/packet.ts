@@ -364,12 +364,16 @@ export class CreateRoomReq extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
         roomName?: string;
+        maxUser?: number;
     }) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") {
             if ("roomName" in data && data.roomName != undefined) {
                 this.roomName = data.roomName;
+            }
+            if ("maxUser" in data && data.maxUser != undefined) {
+                this.maxUser = data.maxUser;
             }
         }
     }
@@ -379,21 +383,35 @@ export class CreateRoomReq extends pb_1.Message {
     set roomName(value: string) {
         pb_1.Message.setField(this, 1, value);
     }
+    get maxUser() {
+        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    }
+    set maxUser(value: number) {
+        pb_1.Message.setField(this, 2, value);
+    }
     static fromObject(data: {
         roomName?: string;
+        maxUser?: number;
     }): CreateRoomReq {
         const message = new CreateRoomReq({});
         if (data.roomName != null) {
             message.roomName = data.roomName;
+        }
+        if (data.maxUser != null) {
+            message.maxUser = data.maxUser;
         }
         return message;
     }
     toObject() {
         const data: {
             roomName?: string;
+            maxUser?: number;
         } = {};
         if (this.roomName != null) {
             data.roomName = this.roomName;
+        }
+        if (this.maxUser != null) {
+            data.maxUser = this.maxUser;
         }
         return data;
     }
@@ -403,6 +421,8 @@ export class CreateRoomReq extends pb_1.Message {
         const writer = w || new pb_1.BinaryWriter();
         if (this.roomName.length)
             writer.writeString(1, this.roomName);
+        if (this.maxUser != 0)
+            writer.writeInt32(2, this.maxUser);
         if (!w)
             return writer.getResultBuffer();
     }
@@ -414,6 +434,9 @@ export class CreateRoomReq extends pb_1.Message {
             switch (reader.getFieldNumber()) {
                 case 1:
                     message.roomName = reader.readString();
+                    break;
+                case 2:
+                    message.maxUser = reader.readInt32();
                     break;
                 default: reader.skipField();
             }
@@ -862,6 +885,7 @@ export class Room extends pb_1.Message {
     constructor(data?: any[] | {
         name?: string;
         userCount?: number;
+        maxCount?: number;
     }) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -871,6 +895,9 @@ export class Room extends pb_1.Message {
             }
             if ("userCount" in data && data.userCount != undefined) {
                 this.userCount = data.userCount;
+            }
+            if ("maxCount" in data && data.maxCount != undefined) {
+                this.maxCount = data.maxCount;
             }
         }
     }
@@ -886,9 +913,16 @@ export class Room extends pb_1.Message {
     set userCount(value: number) {
         pb_1.Message.setField(this, 2, value);
     }
+    get maxCount() {
+        return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+    }
+    set maxCount(value: number) {
+        pb_1.Message.setField(this, 3, value);
+    }
     static fromObject(data: {
         name?: string;
         userCount?: number;
+        maxCount?: number;
     }): Room {
         const message = new Room({});
         if (data.name != null) {
@@ -897,18 +931,25 @@ export class Room extends pb_1.Message {
         if (data.userCount != null) {
             message.userCount = data.userCount;
         }
+        if (data.maxCount != null) {
+            message.maxCount = data.maxCount;
+        }
         return message;
     }
     toObject() {
         const data: {
             name?: string;
             userCount?: number;
+            maxCount?: number;
         } = {};
         if (this.name != null) {
             data.name = this.name;
         }
         if (this.userCount != null) {
             data.userCount = this.userCount;
+        }
+        if (this.maxCount != null) {
+            data.maxCount = this.maxCount;
         }
         return data;
     }
@@ -920,6 +961,8 @@ export class Room extends pb_1.Message {
             writer.writeString(1, this.name);
         if (this.userCount != 0)
             writer.writeInt32(2, this.userCount);
+        if (this.maxCount != 0)
+            writer.writeInt32(3, this.maxCount);
         if (!w)
             return writer.getResultBuffer();
     }
@@ -934,6 +977,9 @@ export class Room extends pb_1.Message {
                     break;
                 case 2:
                     message.userCount = reader.readInt32();
+                    break;
+                case 3:
+                    message.maxCount = reader.readInt32();
                     break;
                 default: reader.skipField();
             }

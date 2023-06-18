@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/08.UIToolkit/Lobby/LobbyUI.uss?fileID=7433441132597879392&amp;guid=a42769fa0e3dfc843a0809856bae8a6a&amp;type=3#LobbyUI" />
+    <ui:VisualElement name="Room" class="room list-element">
+        <ui:VisualElement name="NameContanier" class="room-name-container">
+            <ui:Label text="엄청나게긴방의이름입니다너무길어서UI가꺠질수도있겠어요" display-tooltip-when-elided="true" enable-rich-text="true" name="RoomName" style="font-size: 20px; -unity-text-align: middle-left;" />
+            <ui:Button text="입장하기" display-tooltip-when-elided="true" name="JoinBtn" />
+        </ui:VisualElement>
+        <ui:Label text="1 / 4" display-tooltip-when-elided="true" enable-rich-text="false" name="CurrentUsers" style="font-size: 18px; -unity-text-align: middle-left;" />
+    </ui:VisualElement>
+</ui:UXML>

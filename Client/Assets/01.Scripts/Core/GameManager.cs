@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         SocketManager.Instance.OnDisconnect += () => _managerUI.PopupError("서버 연결에 실패했습니다.", "게임 종료", QuitApp, 0.4f);
 
         await SocketManager.Instance.Connection();
-        LoadSceneAsync(1);
+        LoadSceneAsync("Lobby");
     }
 
     public void LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)

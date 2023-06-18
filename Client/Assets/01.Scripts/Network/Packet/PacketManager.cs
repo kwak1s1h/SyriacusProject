@@ -33,6 +33,9 @@ public class PacketManager
 
         _OnRecv.Add(MSGID.Joinroom, MakePacket<JoinRoom>);
         _Handlers.Add(MSGID.Joinroom, new JoinRoomHandler());
+
+        _OnRecv.Add(MSGID.Createroomres, MakePacket<CreateRoomRes>);
+        _Handlers.Add(MSGID.Createroomres, new CreateRoomResHandler());
     }
 
     public IPacketHandler GetPacketHandler(ushort id)

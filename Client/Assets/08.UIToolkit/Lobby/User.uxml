@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="User" class="list-element user">
+        <ui:Label text="asdfsdfsadf" display-tooltip-when-elided="true" enable-rich-text="true" name="UserName" style="font-size: 20px; -unity-text-align: middle-left;" />
+        <ui:Button text="추방하기" display-tooltip-when-elided="true" name="JoinBtn" />
+    </ui:VisualElement>
+</ui:UXML>

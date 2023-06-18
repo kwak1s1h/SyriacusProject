@@ -34,6 +34,7 @@ message Position {
 
 message CreateRoomReq {
     string roomName = 1;
+    int32 maxUser = 2;
 }
 
 message CreateRoomRes {
@@ -63,4 +64,5 @@ message QuitRoom {
 message Room {
     string name = 1;
     int32 userCount = 2;
+    int32 maxCount = 3;
 }
