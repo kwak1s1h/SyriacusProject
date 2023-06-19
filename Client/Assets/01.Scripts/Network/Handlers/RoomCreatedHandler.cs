@@ -9,5 +9,6 @@ public class RoomCreatedHandler : IPacketHandler
     public void Process(IMessage packet)
     {
         Room room = packet as Room;
+        LobbyUI.Instance.CreateRoomElement(room.Name, room.UserCount, room.MaxCount);
     }
 }

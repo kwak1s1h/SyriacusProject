@@ -9,7 +9,6 @@ public class JoinRoomHandler : IPacketHandler
     public void Process(IMessage packet)
     {
         JoinRoom joinInfo = packet as JoinRoom;
-        DevelopUI.Instance.SetUserCount(joinInfo.UserCount);
-        Debug.Log(joinInfo.Id);
+        LobbyUI.Instance.CreateUserElement(joinInfo.Id);
     }
 }

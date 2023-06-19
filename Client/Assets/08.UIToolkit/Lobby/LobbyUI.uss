@@ -240,3 +240,8 @@
     padding-top: 3px;
     padding-bottom: 3px;
 }
+
+* {
+    -unity-font-definition: url('project://database/Assets/07.Fonts/PretendardVariable%20UI.asset?fileID=11400000&guid=b4aa52b4be3ed8746a8a6fa7d631ec33&type=2#PretendardVariable UI');
+    -unity-font: url('project://database/Assets/07.Fonts/PretendardVariable.ttf?fileID=12800000&guid=167bedf6e0c7da14caae7ca817cf874a&type=3#PretendardVariable');
+}

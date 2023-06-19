@@ -1,5 +1,5 @@
 import Session, { PlayerType, SessionInfo, SessionState } from "../Session/Session";
-import { JoinRoom, JoinRoomRes, MSGID } from "../packet/packet";
+import * as Packet from "../packet/packet";
 import RoomManager from "./RoomManager";
 
 export default class Room 
@@ -9,6 +9,8 @@ export default class Room
     members: Set<Session>;
     memberCnt: number;
     maxCnt: number;
+
+    updateInterval?: NodeJS.Timer;
 
     constructor(name: string, owner: Session, maxCnt: number) {
         this.name = name;
@@ -29,26 +31,33 @@ export default class Room
         session.room = this;
         this.memberCnt++;
 
-        let joinInfo = new JoinRoom({id: session.id, userCount: this.memberCnt});
-        this.broadcast(joinInfo.serialize(), MSGID.JOINROOM, session);
-
-        let joinRes = new JoinRoomRes({success: true, userCount: this.memberCnt});
-        session.sendData(joinRes.serialize(), MSGID.JOINROOMRES);
+        let joinInfo = new Packet.JoinRoom({id: session.id, userCount: this.memberCnt});
+        this.broadcast(joinInfo.serialize(), Packet.MSGID.JOINROOM, session);
     }
 
     exit(session: Session): void {
         if(session.id == this.owner.id) {
             RoomManager.Instance.removeRoom(this.name);
-            // TODO: Send room has removed to all user
             return;
         }
         this.members.delete(session);
         this.memberCnt--;
         session.room = undefined;
+        // TODO: Send Room Users Exit data
     }
 
     play(): void {
-        
+        this.updateInterval = setInterval(() => {
+            this.update();
+        });
+    }
+
+    update(): void {
+
+    }
+
+    release(): void {
+        clearInterval(this.updateInterval);
     }
 
     broadcast(data: Uint8Array, code: number, sender?: Session): void {
@@ -71,7 +80,8 @@ export default class Room
         let info: RoomInfo = {
             name: this.name,
             owner: this.owner.getSessionInfo(),
-            users
+            users,
+            maxCount: this.maxCnt
         };
         return info;
     }
@@ -80,6 +90,7 @@ export default class Room
 export interface RoomInfo
 {
     name: string;
-    owner: SessionInfo
-    users: SessionInfo[]
+    owner: SessionInfo;
+    users: SessionInfo[];
+    maxCount: number;
 }

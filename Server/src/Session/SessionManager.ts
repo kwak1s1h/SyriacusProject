@@ -44,6 +44,14 @@ export default class SessionManager
         });
     }
 
+    broadcastByPredicate(data: Uint8Array, code: number, predicate: (sesison: Session) => boolean)
+    {
+        this.sessionMap.forEach((session) => {
+            if(session && predicate(session))
+                    session.sendData(data, code);
+        });
+    }
+
     getAllSessionInfo(): SessionInfo[] {
         let list: SessionInfo[] = [];
         this.sessionMap.forEach(session => {

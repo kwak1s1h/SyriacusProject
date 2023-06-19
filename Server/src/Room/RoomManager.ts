@@ -1,6 +1,7 @@
 import Session, { SessionState } from "../Session/Session";
 import SessionManager from "../Session/SessionManager";
 import Room, { RoomInfo } from "./Room";
+import * as Packet from "../packet/packet";
 
 export default class RoomManager
 {
@@ -20,7 +21,17 @@ export default class RoomManager
         let room: Room = new Room(name, owner, maxCnt);
         this.roomMap.set(name, room);
 
-        // TODO: broadcast all user that state is NONE
+        let createData: Packet.Room = new Packet.Room({
+            maxCount: room.maxCnt,
+            name: room.name,
+            userCount: room.memberCnt
+        });
+        SessionManager.Instance.broadcastByPredicate(
+            createData.serialize(), Packet.MSGID.ROOMCREATED,
+            (session) => {
+                return session.id != owner.id && session.state == SessionState.NONE;
+            }
+        );
         return room;
     }
 

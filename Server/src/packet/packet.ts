@@ -13,7 +13,9 @@ export enum MSGID {
     ROOMCREATED = 5,
     CREATEROOMREQ = 6,
     CREATEROOMRES = 7,
-    QUITROOM = 8
+    ROOMLISTREQ = 8,
+    ROOMLISTRES = 9,
+    QUITROOM = 10
 }
 export class MsgBox extends pb_1.Message {
     #one_of_decls: number[][] = [];
@@ -704,7 +706,7 @@ export class JoinRoomRes extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
         success?: boolean;
-        userCount?: number;
+        room?: Room;
         userList?: string[];
     }) {
         super();
@@ -713,8 +715,8 @@ export class JoinRoomRes extends pb_1.Message {
             if ("success" in data && data.success != undefined) {
                 this.success = data.success;
             }
-            if ("userCount" in data && data.userCount != undefined) {
-                this.userCount = data.userCount;
+            if ("room" in data && data.room != undefined) {
+                this.room = data.room;
             }
             if ("userList" in data && data.userList != undefined) {
                 this.userList = data.userList;
@@ -727,11 +729,14 @@ export class JoinRoomRes extends pb_1.Message {
     set success(value: boolean) {
         pb_1.Message.setField(this, 1, value);
     }
-    get userCount() {
-        return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+    get room() {
+        return pb_1.Message.getWrapperField(this, Room, 2) as Room;
     }
-    set userCount(value: number) {
-        pb_1.Message.setField(this, 2, value);
+    set room(value: Room) {
+        pb_1.Message.setWrapperField(this, 2, value);
+    }
+    get has_room() {
+        return pb_1.Message.getField(this, 2) != null;
     }
     get userList() {
         return pb_1.Message.getFieldWithDefault(this, 3, []) as string[];
@@ -741,15 +746,15 @@ export class JoinRoomRes extends pb_1.Message {
     }
     static fromObject(data: {
         success?: boolean;
-        userCount?: number;
+        room?: ReturnType<typeof Room.prototype.toObject>;
         userList?: string[];
     }): JoinRoomRes {
         const message = new JoinRoomRes({});
         if (data.success != null) {
             message.success = data.success;
         }
-        if (data.userCount != null) {
-            message.userCount = data.userCount;
+        if (data.room != null) {
+            message.room = Room.fromObject(data.room);
         }
         if (data.userList != null) {
             message.userList = data.userList;
@@ -759,14 +764,14 @@ export class JoinRoomRes extends pb_1.Message {
     toObject() {
         const data: {
             success?: boolean;
-            userCount?: number;
+            room?: ReturnType<typeof Room.prototype.toObject>;
             userList?: string[];
         } = {};
         if (this.success != null) {
             data.success = this.success;
         }
-        if (this.userCount != null) {
-            data.userCount = this.userCount;
+        if (this.room != null) {
+            data.room = this.room.toObject();
         }
         if (this.userList != null) {
             data.userList = this.userList;
@@ -779,8 +784,8 @@ export class JoinRoomRes extends pb_1.Message {
         const writer = w || new pb_1.BinaryWriter();
         if (this.success != false)
             writer.writeBool(1, this.success);
-        if (this.userCount != 0)
-            writer.writeInt32(2, this.userCount);
+        if (this.has_room)
+            writer.writeMessage(2, this.room, () => this.room.serialize(writer));
         if (this.userList.length)
             writer.writeRepeatedString(3, this.userList);
         if (!w)
@@ -796,7 +801,7 @@ export class JoinRoomRes extends pb_1.Message {
                     message.success = reader.readBool();
                     break;
                 case 2:
-                    message.userCount = reader.readInt32();
+                    reader.readMessage(message.room, () => message.room = Room.deserialize(reader));
                     break;
                 case 3:
                     pb_1.Message.addToRepeatedField(message, 3, reader.readString());
@@ -811,6 +816,113 @@ export class JoinRoomRes extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): JoinRoomRes {
         return JoinRoomRes.deserialize(bytes);
+    }
+}
+export class RoomListReq extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") { }
+    }
+    static fromObject(data: {}): RoomListReq {
+        const message = new RoomListReq({});
+        return message;
+    }
+    toObject() {
+        const data: {} = {};
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): RoomListReq {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new RoomListReq();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): RoomListReq {
+        return RoomListReq.deserialize(bytes);
+    }
+}
+export class RoomListRes extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {
+        list?: Room[];
+    }) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") {
+            if ("list" in data && data.list != undefined) {
+                this.list = data.list;
+            }
+        }
+    }
+    get list() {
+        return pb_1.Message.getRepeatedWrapperField(this, Room, 1) as Room[];
+    }
+    set list(value: Room[]) {
+        pb_1.Message.setRepeatedWrapperField(this, 1, value);
+    }
+    static fromObject(data: {
+        list?: ReturnType<typeof Room.prototype.toObject>[];
+    }): RoomListRes {
+        const message = new RoomListRes({});
+        if (data.list != null) {
+            message.list = data.list.map(item => Room.fromObject(item));
+        }
+        return message;
+    }
+    toObject() {
+        const data: {
+            list?: ReturnType<typeof Room.prototype.toObject>[];
+        } = {};
+        if (this.list != null) {
+            data.list = this.list.map((item: Room) => item.toObject());
+        }
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (this.list.length)
+            writer.writeRepeatedMessage(1, this.list, (item: Room) => item.serialize(writer));
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): RoomListRes {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new RoomListRes();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                case 1:
+                    reader.readMessage(message.list, () => pb_1.Message.addToRepeatedWrapperField(message, 1, Room.deserialize(reader), Room));
+                    break;
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): RoomListRes {
+        return RoomListRes.deserialize(bytes);
     }
 }
 export class QuitRoom extends pb_1.Message {

@@ -11,7 +11,9 @@ enum MSGID {
     ROOMCREATED = 5;
     CREATEROOMREQ = 6;
     CREATEROOMRES = 7;
-    QUITROOM = 8;
+    ROOMLISTREQ = 8;
+    ROOMLISTRES = 9;
+    QUITROOM = 10;
 }
 
 message MsgBox {
@@ -53,8 +55,14 @@ message JoinRoomReq {
 
 message JoinRoomRes {
     bool success = 1;
-    int32 userCount = 2;
+    Room room = 2;
     repeated string userList = 3;
+}
+
+message RoomListReq {}
+
+message RoomListRes {
+    repeated Room list = 1;
 }
 
 message QuitRoom {

@@ -1,24 +1,32 @@
 import RoomManager from "../Room/RoomManager";
 import Session from "../Session/Session";
 import { PacketHandler } from "../packet/PacketManager";
-import { JoinRoomReq, JoinRoomRes, MSGID } from "../packet/packet";
+import * as Packet from "../packet/packet";
 
 module.exports = {
-    code: MSGID.JOINROOMREQ,
+    code: Packet.MSGID.JOINROOMREQ,
     handle: function (session: Session, data: Uint8Array): void {
-        let req = JoinRoomReq.deserialize(data);
-        let res = new JoinRoomRes();
+        let req = Packet.JoinRoomReq.deserialize(data);
+        let res = new Packet.JoinRoomRes();
         let room = RoomManager.Instance.getRoom(req.roomName);
         if(room && !session.room) 
         {
             room.join(session);
             res.success = true;
-            res.userCount = room.members.size;
+            room.members.forEach(s => {
+                if(s.id != session.id)
+                    res.userList.push(s.id);
+            });
+            res.room = new Packet.Room({
+                maxCount: room.maxCnt,
+                name: room.name,
+                userCount: room.memberCnt
+            });
         }
         else
         {
             res.success = false;
         }
-        session.sendData(res.serialize(), MSGID.JOINROOMRES);
+        session.sendData(res.serialize(), Packet.MSGID.JOINROOMRES);
     }
 }

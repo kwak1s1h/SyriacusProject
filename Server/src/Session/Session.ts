@@ -22,7 +22,7 @@ export default class Session
     constructor(socket: WS, id: string) {
         this.socket = socket;
         // this.state = SessionState.NONE;
-        this.state = SessionState.INLOBBY;
+        this.state = SessionState.NONE;
         this.id = id;
 
         this.position = new Position({x: 0, y: 0, z: 0});

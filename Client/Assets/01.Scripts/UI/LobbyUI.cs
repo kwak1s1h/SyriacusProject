@@ -7,6 +7,9 @@ using UnityEngine.UIElements;
 
 public class LobbyUI : MonoBehaviour
 {
+    private static LobbyUI _instance;
+    public static LobbyUI Instance => _instance;
+
     private UIDocument _uiDoc;
 
     private VisualElement _currentContainer;
@@ -15,14 +18,16 @@ public class LobbyUI : MonoBehaviour
     public bool CanInput { get => _canInput; set => value = _canInput; }
 
     private VisualElement _mainContainer;
+    public VisualElement MainContainer => _mainContainer;
     [SerializeField] private float _titleMoveHeight;
     private Label _title;
     private Button _playBtn, _settingBtn, _quitBtn;
-
     private VisualElement _chosePlayMode;
+    public VisualElement ChosePlayMode => _chosePlayMode;
     private Button _multiBtn, _singleBtn, _returnBtn;
 
     private VisualElement _multiModeContainer;
+    public VisualElement MultiModeContainer => _multiModeContainer;
     [SerializeField] private VisualTreeAsset _roomUxml;
     private ScrollView _roomList;
     private TextField _nameOption;
@@ -30,14 +35,23 @@ public class LobbyUI : MonoBehaviour
     private Button _closeBtn, _createBtn;
 
     private VisualElement _roomContainer;
+    public VisualElement RoomContainer => _roomContainer;
     [SerializeField] private VisualTreeAsset _userUxml;
-    private ScrollView _userList;
+    private ScrollView _roomOptionList, _userList;
     private Label _roomTitle;
     private Button _exitBtn, _roomPlayBtn;
+    private SliderInt _roomMaxUserOption;
 
     private void Awake()
     {
         _uiDoc = GetComponent<UIDocument>();
+
+        if(_instance != null)
+        {
+            Debug.LogError("Multiple LobbyUI Instance is running, destroy this!");
+            Destroy(this);
+        }
+        _instance = this;
     }
 
     private void OnEnable()
@@ -64,9 +78,13 @@ public class LobbyUI : MonoBehaviour
     private void RoomContainerInit()
     {
         _quitBtn = _roomContainer.Q<Button>("CloseBtn");
-        _userList = _roomContainer.Q<ScrollView>("UserList");
+        _roomOptionList = _roomContainer.Q<VisualElement>("RoomOption").Q<ScrollView>("ScrollView");
+        _userList = _roomContainer.Q<VisualElement>("UserList").Q<ScrollView>("ScrollView");
         _roomTitle = _roomContainer.Q<Label>("Title");
         _roomPlayBtn = _roomContainer.Q<Button>("PlayBtn");
+        _roomMaxUserOption = _roomOptionList.Q<SliderInt>("MaxUserOption");
+        _roomMaxUserOption.focusable = false;
+        _roomMaxUserOption.SetEnabled(false);
     }
 
     private void MultiModeContainerInit()
@@ -88,6 +106,7 @@ public class LobbyUI : MonoBehaviour
             int max = _maxUserOption.value;
             CreateRoomReq req = new CreateRoomReq{ MaxUser = max, RoomName = roomName };
             SocketManager.Instance.RegisterSend(MSGID.Createroomreq, req);
+            CanInput = false;
         });
     }
 
@@ -100,7 +119,11 @@ public class LobbyUI : MonoBehaviour
         _multiBtn.RegisterCallback<ClickEvent>(e => {
             if(!CanInput) return;
             if(_currentContainer == _chosePlayMode)
+            {
+                RoomListReq req = new RoomListReq();
+                SocketManager.Instance.RegisterSend(MSGID.Roomlistreq, req);
                 SetCurrentWindow(_multiModeContainer);
+            }
         });
         _returnBtn.RegisterCallback<ClickEvent>(e => {
             if(!CanInput) return;
@@ -130,7 +153,7 @@ public class LobbyUI : MonoBehaviour
         });
     }
 
-    private void SetCurrentWindow(VisualElement container)
+    public void SetCurrentWindow(VisualElement container)
     {
         if(_currentContainer == container) return;
         _canInput = false;
@@ -160,15 +183,20 @@ public class LobbyUI : MonoBehaviour
         newRoom.name = roomName;
         newRoom.Q<Label>("RoomName").text = roomName;
         newRoom.Q<Label>("CurrentUsers").text = $"{current} / {max}";
+        newRoom.Q<Button>("JoinBtn").RegisterCallback<ClickEvent>(e => {
+            JoinRoomReq req = new JoinRoomReq { RoomName = roomName };
+            SocketManager.Instance.RegisterSend(MSGID.Joinroomreq, req);
+            CanInput = false;
+        });
         _roomList.Add(newRoom);
     }
 
-    public void CreateUserElement(string userName)
+    public void CreateUserElement(string userName, bool isMe = false)
     {
         VisualElement newUser = _userUxml.CloneTree();
         newUser.name = userName;
         newUser.Q<Label>("UserName").text = userName;
-        _roomList.Add(newUser);
+        _userList.Add(newUser);
     }
 
     public void UpdateRoomElement(string roomName, int current)
@@ -183,5 +211,12 @@ public class LobbyUI : MonoBehaviour
     {
         VisualElement element = _userList.Q<VisualElement>(userName);
         element.Q<Label>("UserName").text = userName;
+    }
+
+    public void InitRoom(string name, int max)
+    {
+        _roomTitle.text = name;
+        _roomMaxUserOption.value = max;
+        CreateUserElement("나");
     }
 }

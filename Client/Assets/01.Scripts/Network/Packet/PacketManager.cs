@@ -36,6 +36,9 @@ public class PacketManager
 
         _OnRecv.Add(MSGID.Createroomres, MakePacket<CreateRoomRes>);
         _Handlers.Add(MSGID.Createroomres, new CreateRoomResHandler());
+
+        _OnRecv.Add(MSGID.Roomlistres, MakePacket<RoomListRes>);
+        _Handlers.Add(MSGID.Roomlistres, new RoomListResHandler());
     }
 
     public IPacketHandler GetPacketHandler(ushort id)
@@ -59,6 +62,7 @@ public class PacketManager
         if (_OnRecv.ContainsKey((MSGID)code))
         {
             _OnRecv[(MSGID)code].Invoke(buffer, code);
+            Debug.Log($"{Enum.GetName(typeof(MSGID), code)}");
         }
         else
         {
