@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Packet;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,18 +40,18 @@ public class GameManager : MonoBehaviour
         LoadSceneAsync("Lobby");
     }
 
-    public void LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
+    public void LoadSceneAsync(string sceneName, bool waitServer = false, LoadSceneMode mode = LoadSceneMode.Single)
     {
         var operation = SceneManager.LoadSceneAsync(sceneName, mode);
-        StartCoroutine(SceneLoadRoutine(operation));
+        StartCoroutine(SceneLoadRoutine(operation, waitServer));
     }
-    public void LoadSceneAsync(int sceneIdx, LoadSceneMode mode = LoadSceneMode.Single)
+    public void LoadSceneAsync(int sceneIdx, bool waitServer = false, LoadSceneMode mode = LoadSceneMode.Single)
     {
         var operation = SceneManager.LoadSceneAsync(sceneIdx, mode);
-        StartCoroutine(SceneLoadRoutine(operation));
+        StartCoroutine(SceneLoadRoutine(operation, waitServer));
     }
 
-    private IEnumerator SceneLoadRoutine(AsyncOperation operation)
+    private IEnumerator SceneLoadRoutine(AsyncOperation operation, bool waitServer)
     {
         operation.allowSceneActivation = false;
         _loadingUI.ShowProgressBar(true);
@@ -60,7 +61,12 @@ public class GameManager : MonoBehaviour
             if(operation.progress >= 0.9f) 
             {
                 yield return new WaitForSeconds(0.75f);
-                operation.allowSceneActivation = true;
+                if(waitServer)
+                {
+                    SocketManager.Instance.RegisterSend(MSGID.Sceneready, new SceneReady());
+                    yield return new WaitUntil(() => SocketManager.Instance.LoadSceneAllow);
+                }
+                else operation.allowSceneActivation = true;
             }
             yield return null;
         }

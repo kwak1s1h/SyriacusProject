@@ -9,11 +9,15 @@ enum MSGID {
     JOINROOMREQ = 3;
     JOINROOMRES = 4;
     ROOMCREATED = 5;
-    CREATEROOMREQ = 6;
-    CREATEROOMRES = 7;
-    ROOMLISTREQ = 8;
-    ROOMLISTRES = 9;
-    QUITROOM = 10;
+    ROOMREMOVED = 6;
+    CREATEROOMREQ = 7;
+    CREATEROOMRES = 8;
+    ROOMLISTREQ = 9;
+    ROOMLISTRES = 10;
+    QUITROOM = 11;
+    PLAYGAMEREQ = 12;
+    PLAYGAMERES = 13;
+    SCENEREADY = 14;
 }
 
 message MsgBox {
@@ -69,8 +73,24 @@ message QuitRoom {
     string id = 1;
 }
 
+message RoomRemoved {
+    string roomName = 1;
+    bool isYourRoom = 2;
+}
+
 message Room {
     string name = 1;
     int32 userCount = 2;
     int32 maxCount = 3;
 }
+
+message PlayGameReq {
+    int32 playTime = 1;
+    int32 targetHp = 2;
+}
+
+message PlayGameRes {
+    bool success = 1;
+}
+
+message SceneReady {}

@@ -38,8 +38,20 @@ export default class RoomManager
     removeRoom(name: string): void {
         let room = this.roomMap.get(name);
         if(room) {
+            let removeData = new Packet.RoomRemoved({
+                roomName: room.name,
+                isYourRoom: false
+            });
+            SessionManager.Instance.broadcastByPredicate(
+                removeData.serialize(), Packet.MSGID.ROOMREMOVED,
+                (s) => s.room?.name != room?.name
+            );
             room.members.forEach(session => {
                 // Send Exit Data
+                removeData.isYourRoom = true;
+                session.sendData(removeData.serialize(), Packet.MSGID.ROOMREMOVED);
+                session.state = SessionState.NONE;
+                delete session.room;
             });
             this.roomMap.delete(name);
         }

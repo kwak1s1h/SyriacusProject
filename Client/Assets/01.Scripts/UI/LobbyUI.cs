@@ -40,7 +40,7 @@ public class LobbyUI : MonoBehaviour
     private ScrollView _roomOptionList, _userList;
     private Label _roomTitle;
     private Button _exitBtn, _roomPlayBtn;
-    private SliderInt _roomMaxUserOption;
+    private SliderInt _roomMaxUserOption, _playTimeOption, _targetHpOption;
 
     private void Awake()
     {
@@ -83,6 +83,20 @@ public class LobbyUI : MonoBehaviour
         _roomTitle = _roomContainer.Q<Label>("Title");
         _roomPlayBtn = _roomContainer.Q<Button>("PlayBtn");
         _roomMaxUserOption = _roomOptionList.Q<SliderInt>("MaxUserOption");
+        _playTimeOption = _roomOptionList.Q<SliderInt>("GameTimeOption");
+        _targetHpOption = _roomOptionList.Q<SliderInt>("TargetHpOption");
+        _quitBtn.RegisterCallback<ClickEvent>(e => {
+            QuitRoom quit = new QuitRoom();
+            SocketManager.Instance.RegisterSend(MSGID.Quitroom, quit);
+            SetCurrentWindow(MultiModeContainer);
+        });
+        _roomPlayBtn.RegisterCallback<ClickEvent>(e => {
+            PlayGameReq req = new PlayGameReq {
+                PlayTime = _playTimeOption.value,
+                TargetHp = _targetHpOption.value
+            };
+            SocketManager.Instance.RegisterSend(MSGID.Playgamereq, req);
+        });
         _roomMaxUserOption.focusable = false;
         _roomMaxUserOption.SetEnabled(false);
     }
@@ -213,10 +227,39 @@ public class LobbyUI : MonoBehaviour
         element.Q<Label>("UserName").text = userName;
     }
 
-    public void InitRoom(string name, int max)
+    public void InitRoom(string name, int max, bool isOwner = false)
     {
         _roomTitle.text = name;
+        _userList.Clear();
         _roomMaxUserOption.value = max;
+        SetRoomOwner(isOwner);
         CreateUserElement("나");
+    }
+
+    public void DeleteRoomElement(string roomName)
+    {
+        VisualElement target = _roomList.Q(roomName);
+        if(target != null)
+            _roomList.Remove(target);
+        else
+            Debug.LogError($"Cannot find room {roomName}");
+    }
+
+    public void DeleteUserElement(string id)
+    {
+        VisualElement target = _userList.Q(id);
+        if(target != null)
+            _userList.Remove(target);
+        else
+            Debug.LogError($"Cannot find user ${id}");
+    }
+
+    public void ClearRoomList() => _roomList.Clear();
+
+    public void SetRoomOwner(bool value)
+    {
+        _roomPlayBtn.SetEnabled(value);
+        _playTimeOption.SetEnabled(value);
+        _targetHpOption.SetEnabled(value);
     }
 }

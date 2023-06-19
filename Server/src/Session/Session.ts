@@ -66,7 +66,8 @@ export default class Session
             },
             playerType: this.playerType,
             speed: this.speed,
-            yRotation: this.yRotation
+            yRotation: this.yRotation,
+            room: this.room?.name
         };
         return info;
     }
@@ -93,4 +94,5 @@ export interface SessionInfo
     playerType: PlayerType;
     yRotation: number;
     speed: number;
+    room: string | undefined;
 }

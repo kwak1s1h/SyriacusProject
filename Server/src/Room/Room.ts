@@ -10,6 +10,8 @@ export default class Room
     memberCnt: number;
     maxCnt: number;
 
+    roomState: RoomState;
+
     updateInterval?: NodeJS.Timer;
 
     constructor(name: string, owner: Session, maxCnt: number) {
@@ -19,6 +21,7 @@ export default class Room
         this.members = new Set<Session>();
         this.members.add(owner);
         this.memberCnt = 1;
+        this.roomState = RoomState.LOBBY;
 
         owner.room = this;
         owner.state = SessionState.INLOBBY;
@@ -36,14 +39,26 @@ export default class Room
     }
 
     exit(session: Session): void {
-        if(session.id == this.owner.id) {
-            RoomManager.Instance.removeRoom(this.name);
-            return;
+        if(this.roomState == RoomState.LOBBY)
+        {
+            if(session.id == this.owner.id) {
+                RoomManager.Instance.removeRoom(this.name);
+                return;
+            }
+            this.members.delete(session);
+            this.memberCnt--;
+            session.room = undefined;
+            session.state = SessionState.NONE;
+
+            let exitData = new Packet.QuitRoom({
+                id: session.id
+            });
+            this.broadcast(exitData.serialize(), Packet.MSGID.QUITROOM);
         }
-        this.members.delete(session);
-        this.memberCnt--;
-        session.room = undefined;
-        // TODO: Send Room Users Exit data
+        else 
+        {
+
+        }
     }
 
     play(): void {
@@ -81,7 +96,8 @@ export default class Room
             name: this.name,
             owner: this.owner.getSessionInfo(),
             users,
-            maxCount: this.maxCnt
+            maxCount: this.maxCnt,
+            userCount: this.memberCnt
         };
         return info;
     }
@@ -93,4 +109,11 @@ export interface RoomInfo
     owner: SessionInfo;
     users: SessionInfo[];
     maxCount: number;
+    userCount: number;
+}
+
+export enum RoomState
+{
+    LOBBY,
+    INGAME
 }

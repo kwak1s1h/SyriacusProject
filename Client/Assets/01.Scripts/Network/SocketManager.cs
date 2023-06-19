@@ -21,6 +21,8 @@ public class SocketManager : MonoBehaviour
     private PacketManager _packetManager;
     private Queue<PacketMessage> _sendQueue;
 
+    public bool LoadSceneAllow { get; set; }
+
     public event Action OnConnect;
     public event Action OnDisconnect;
 
@@ -31,6 +33,7 @@ public class SocketManager : MonoBehaviour
         _packetManager = new PacketManager();
         _sendQueue = new Queue<PacketMessage>();
         _isConnected = false;
+        LoadSceneAllow = false;
     }
 
     public async Task Connection()

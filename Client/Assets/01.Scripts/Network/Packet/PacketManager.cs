@@ -39,6 +39,12 @@ public class PacketManager
 
         _OnRecv.Add(MSGID.Roomlistres, MakePacket<RoomListRes>);
         _Handlers.Add(MSGID.Roomlistres, new RoomListResHandler());
+
+        _OnRecv.Add(MSGID.Roomremoved, MakePacket<RoomRemoved>);
+        _Handlers.Add(MSGID.Roomremoved, new RoomRemovedHandler());
+
+        _OnRecv.Add(MSGID.Quitroom, MakePacket<QuitRoom>);
+        _Handlers.Add(MSGID.Quitroom, new QuitRoomHandler());
     }
 
     public IPacketHandler GetPacketHandler(ushort id)

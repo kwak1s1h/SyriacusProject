@@ -9,7 +9,8 @@ module.exports = {
         let req = Packet.JoinRoomReq.deserialize(data);
         let res = new Packet.JoinRoomRes();
         let room = RoomManager.Instance.getRoom(req.roomName);
-        if(room && !session.room) 
+        console.log(room?.name, room?.maxCnt, room?.memberCnt);
+        if(room && !session.room && room.maxCnt > room.memberCnt) 
         {
             room.join(session);
             res.success = true;

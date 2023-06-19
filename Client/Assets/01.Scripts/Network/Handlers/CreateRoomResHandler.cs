@@ -11,7 +11,7 @@ public class CreateRoomResHandler : IPacketHandler
         CreateRoomRes res = packet as CreateRoomRes;
         if(res.Success)
         {
-            LobbyUI.Instance.InitRoom(res.Room.Name, res.Room.MaxCount);
+            LobbyUI.Instance.InitRoom(res.Room.Name, res.Room.MaxCount, true);
             LobbyUI.Instance.SetCurrentWindow(LobbyUI.Instance.RoomContainer);  
         }
         else 
