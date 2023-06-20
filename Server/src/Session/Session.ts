@@ -1,5 +1,5 @@
 import WS, { RawData } from "ws";
-import { MSGID, Position } from "../packet/packet";
+import { MSGID, PlayerType, Position } from "../packet/packet";
 import PacketManager from "../packet/PacketManager";
 import Room from "../Room/Room";
 import { types } from "../Types";
@@ -78,13 +78,6 @@ export enum SessionState
     NONE,
     INLOBBY,
     INGAME
-}
-
-export enum PlayerType
-{
-    NONE,
-    CHASER,
-    TARGET
 }
 
 export interface SessionInfo 

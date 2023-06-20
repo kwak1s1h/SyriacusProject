@@ -15,7 +15,9 @@ public class AgentMovement : MonoBehaviour
     [Range(0f, 2f), SerializeField] protected float _axisSpeedX = 1f;
     [Range(0f, 0.1f), SerializeField] protected float _axisSpeedY = 0.05f;
 
-    protected Cinemachine3rdPersonFollow _followComponent;
+    #nullable enable
+    protected Cinemachine3rdPersonFollow? _followComponent;
+    #nullable disable
 
     protected Vector3 _movementVelocity;
     protected float _verticalVelocity;
@@ -30,7 +32,7 @@ public class AgentMovement : MonoBehaviour
         _agentInput = GetComponent<AgentInput>();
         _agentAnimation = transform.Find("Visual").GetComponent<AgentAnimation>();
         _charController = GetComponent<CharacterController>();
-        _followComponent = Define.CmVCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        _followComponent = Define.CmVCam?.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
 
         _agentInput.OnMousePosInput += SetCameraViewPosition;
         _agentInput.OnMousePosInput += SetPlayerRotation;
@@ -38,8 +40,16 @@ public class AgentMovement : MonoBehaviour
         _agentInput.OnMouseWheelScroll += SetCameraDistance;
     }
 
+    public void SetCamera(CinemachineVirtualCamera cmVCam)
+    {
+        _followComponent = cmVCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        cmVCam.Follow = transform;
+        cmVCam.LookAt = transform.Find("CameraLook");
+    }
+
     protected virtual void SetCameraDistance(Vector2 mouseDelta)
     {
+        if(_followComponent != null)
         _followComponent.CameraDistance = Mathf.Clamp(_followComponent.CameraDistance + -mouseDelta.y * _zoomSmooth, 2.25f, 3f);
     }
 
@@ -62,6 +72,7 @@ public class AgentMovement : MonoBehaviour
 
     protected virtual void SetCameraViewPosition(Vector2 mouseInput)
     {
+        if(_followComponent != null)
         _followComponent.ShoulderOffset.y = Mathf.Clamp(_followComponent.ShoulderOffset.y + mouseInput.x * _axisSpeedY, 0.2f, 4f);
     }
 

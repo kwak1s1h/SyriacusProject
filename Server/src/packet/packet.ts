@@ -19,7 +19,13 @@ export enum MSGID {
     QUITROOM = 11,
     PLAYGAMEREQ = 12,
     PLAYGAMERES = 13,
-    SCENEREADY = 14
+    SCENEREADY = 14,
+    CONFIRMLOAD = 15
+}
+export enum PlayerType {
+    NONE = 0,
+    TARGET = 1,
+    CHASER = 2
 }
 export class MsgBox extends pb_1.Message {
     #one_of_decls: number[][] = [];
@@ -1293,12 +1299,16 @@ export class PlayGameRes extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
         success?: boolean;
+        type?: PlayerType;
     }) {
         super();
         pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") {
             if ("success" in data && data.success != undefined) {
                 this.success = data.success;
+            }
+            if ("type" in data && data.type != undefined) {
+                this.type = data.type;
             }
         }
     }
@@ -1308,21 +1318,35 @@ export class PlayGameRes extends pb_1.Message {
     set success(value: boolean) {
         pb_1.Message.setField(this, 1, value);
     }
+    get type() {
+        return pb_1.Message.getFieldWithDefault(this, 2, PlayerType.NONE) as PlayerType;
+    }
+    set type(value: PlayerType) {
+        pb_1.Message.setField(this, 2, value);
+    }
     static fromObject(data: {
         success?: boolean;
+        type?: PlayerType;
     }): PlayGameRes {
         const message = new PlayGameRes({});
         if (data.success != null) {
             message.success = data.success;
+        }
+        if (data.type != null) {
+            message.type = data.type;
         }
         return message;
     }
     toObject() {
         const data: {
             success?: boolean;
+            type?: PlayerType;
         } = {};
         if (this.success != null) {
             data.success = this.success;
+        }
+        if (this.type != null) {
+            data.type = this.type;
         }
         return data;
     }
@@ -1332,6 +1356,8 @@ export class PlayGameRes extends pb_1.Message {
         const writer = w || new pb_1.BinaryWriter();
         if (this.success != false)
             writer.writeBool(1, this.success);
+        if (this.type != PlayerType.NONE)
+            writer.writeEnum(2, this.type);
         if (!w)
             return writer.getResultBuffer();
     }
@@ -1343,6 +1369,9 @@ export class PlayGameRes extends pb_1.Message {
             switch (reader.getFieldNumber()) {
                 case 1:
                     message.success = reader.readBool();
+                    break;
+                case 2:
+                    message.type = reader.readEnum();
                     break;
                 default: reader.skipField();
             }
@@ -1394,5 +1423,45 @@ export class SceneReady extends pb_1.Message {
     }
     static deserializeBinary(bytes: Uint8Array): SceneReady {
         return SceneReady.deserialize(bytes);
+    }
+}
+export class ConfirmLoad extends pb_1.Message {
+    #one_of_decls: number[][] = [];
+    constructor(data?: any[] | {}) {
+        super();
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        if (!Array.isArray(data) && typeof data == "object") { }
+    }
+    static fromObject(data: {}): ConfirmLoad {
+        const message = new ConfirmLoad({});
+        return message;
+    }
+    toObject() {
+        const data: {} = {};
+        return data;
+    }
+    serialize(): Uint8Array;
+    serialize(w: pb_1.BinaryWriter): void;
+    serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+        const writer = w || new pb_1.BinaryWriter();
+        if (!w)
+            return writer.getResultBuffer();
+    }
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ConfirmLoad {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ConfirmLoad();
+        while (reader.nextField()) {
+            if (reader.isEndGroup())
+                break;
+            switch (reader.getFieldNumber()) {
+                default: reader.skipField();
+            }
+        }
+        return message;
+    }
+    serializeBinary(): Uint8Array {
+        return this.serialize();
+    }
+    static deserializeBinary(bytes: Uint8Array): ConfirmLoad {
+        return ConfirmLoad.deserialize(bytes);
     }
 }

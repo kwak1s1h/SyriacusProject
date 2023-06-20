@@ -1,4 +1,5 @@
-import Session, { PlayerType, SessionInfo, SessionState } from "../Session/Session";
+import Session, { SessionInfo, SessionState } from "../Session/Session";
+import { getRandomInt } from "../Utill";
 import * as Packet from "../packet/packet";
 import RoomManager from "./RoomManager";
 
@@ -6,7 +7,7 @@ export default class Room
 {
     name: string;
     owner: Session;
-    members: Set<Session>;
+    members: Session[];
     memberCnt: number;
     maxCnt: number;
 
@@ -18,19 +19,19 @@ export default class Room
         this.name = name;
         this.owner = owner;
         this.maxCnt = maxCnt;
-        this.members = new Set<Session>();
-        this.members.add(owner);
+        this.members = [];
+        this.members.push(owner);
         this.memberCnt = 1;
         this.roomState = RoomState.LOBBY;
 
         owner.room = this;
         owner.state = SessionState.INLOBBY;
-        owner.playerType = PlayerType.TARGET;
+        owner.playerType = Packet.PlayerType.TARGET;
     }
 
     join(session: Session): void {
-        if(this.members.has(session)) return;
-        this.members.add(session);
+        if(this.members.find(s => s.id == session.id)) return;
+        this.members.push(session);
         session.room = this;
         this.memberCnt++;
 
@@ -45,7 +46,8 @@ export default class Room
                 RoomManager.Instance.removeRoom(this.name);
                 return;
             }
-            this.members.delete(session);
+            let idx = this.members.findIndex(s => s.id == session.id);
+            this.members.splice(idx, 1);
             this.memberCnt--;
             session.room = undefined;
             session.state = SessionState.NONE;
@@ -62,6 +64,15 @@ export default class Room
     }
 
     play(): void {
+        let confirm = new Packet.ConfirmLoad();
+        this.broadcast(confirm.serialize(), Packet.MSGID.CONFIRMLOAD);
+
+        let rand = getRandomInt(0, this.maxCnt);
+
+        this.members.forEach((session, idx) => {
+            session.playerType = idx == rand ? Packet.PlayerType.TARGET : Packet.PlayerType.CHASER;
+        });
+
         this.updateInterval = setInterval(() => {
             this.update();
         });
@@ -85,6 +96,18 @@ export default class Room
             }
             else session.sendData(data, code);
         });
+    }
+
+    checkAllReady(): boolean {
+        let result = true;
+        this.members.forEach(s => {
+            if(s.state != SessionState.INGAME)
+            {
+                result = false;
+                return;
+            }
+        });
+        return result;
     }
 
     getInfo(): RoomInfo {

@@ -167,13 +167,14 @@ public class LobbyUI : MonoBehaviour
         });
     }
 
-    public void SetCurrentWindow(VisualElement container)
+    #nullable enable
+    public void SetCurrentWindow(VisualElement? container)
     {
         if(_currentContainer == container) return;
         _canInput = false;
         _currentContainer.RemoveFromClassList("on");
         _currentContainer = container;
-        _currentContainer.AddToClassList("on");
+        _currentContainer?.AddToClassList("on");
         _canInput = true;
     }
 

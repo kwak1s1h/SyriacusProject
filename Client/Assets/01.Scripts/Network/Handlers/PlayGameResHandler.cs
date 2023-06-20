@@ -8,7 +8,13 @@ public class PlayGameResHandler : IPacketHandler
 {
     public void Process(IMessage packet)
     {
-        // PlayGame play = packet as PlayGame;
-        GameManager.Instance.LoadSceneAsync("Game", true);
+        PlayGameRes res = packet as PlayGameRes;
+        if(res.Success)
+        {
+            GameManager.Instance.LoadSceneAsync("Game", true);
+            LobbyUI.Instance.SetCurrentWindow(null);
+        }
+        else
+            GameManager.Instance.PopupError("게임을 시작할 수 없습니다", "닫기");
     }
 }

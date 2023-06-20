@@ -154,6 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostname: 172.31.0.213
   port: 30000
+  _targetPref: {fileID: 1857501953257635680, guid: 8abf5d9ba190a9140b0be64ce00110b2, type: 3}
+  _chaserPref: {fileID: 1652402929653562085, guid: 0dbda226bd733684bb1063bfe923791f, type: 3}
+  _followCamPref: {fileID: 89590253858091433, guid: d58352e72b4c960448b2e2a243b36a34, type: 3}
 --- !u!4 &106388075
 Transform:
   m_ObjectHideFlags: 0

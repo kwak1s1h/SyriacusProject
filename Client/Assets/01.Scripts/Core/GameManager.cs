@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Packet;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,8 +13,14 @@ public class GameManager : MonoBehaviour
     private ManagerUI _managerUI;
     private LoadingUI _loadingUI;
 
+    private Transform _player;
+    public Transform Player => _player;
+
     [SerializeField] private string hostname = "localhost";
     [SerializeField] private int port = 30000;
+
+    [SerializeField] private AgentMovement _targetPref, _chaserPref;
+    [SerializeField] private CinemachineVirtualCamera _followCamPref;
 
     private void Awake()
     {
@@ -40,14 +47,16 @@ public class GameManager : MonoBehaviour
         LoadSceneAsync("Lobby");
     }
 
-    public void LoadSceneAsync(string sceneName, bool waitServer = false, LoadSceneMode mode = LoadSceneMode.Single)
+    public void LoadSceneAsync(string sceneName, bool waitServer = false, Action<AsyncOperation> OnFinishLoad = null, LoadSceneMode mode = LoadSceneMode.Single)
     {
         var operation = SceneManager.LoadSceneAsync(sceneName, mode);
+        operation.completed += OnFinishLoad;
         StartCoroutine(SceneLoadRoutine(operation, waitServer));
     }
-    public void LoadSceneAsync(int sceneIdx, bool waitServer = false, LoadSceneMode mode = LoadSceneMode.Single)
+    public void LoadSceneAsync(int sceneIdx, bool waitServer = false, Action<AsyncOperation> OnFinishLoad = null, LoadSceneMode mode = LoadSceneMode.Single)
     {
         var operation = SceneManager.LoadSceneAsync(sceneIdx, mode);
+        operation.completed += OnFinishLoad;
         StartCoroutine(SceneLoadRoutine(operation, waitServer));
     }
 
@@ -65,6 +74,7 @@ public class GameManager : MonoBehaviour
                 {
                     SocketManager.Instance.RegisterSend(MSGID.Sceneready, new SceneReady());
                     yield return new WaitUntil(() => SocketManager.Instance.LoadSceneAllow);
+                    waitServer = false;
                 }
                 else operation.allowSceneActivation = true;
             }
@@ -85,5 +95,23 @@ public class GameManager : MonoBehaviour
         #else
         Application.Quit();
         #endif
+    }
+
+    public void CreatePlayer(PlayerType type)
+    {
+        AgentMovement agent;
+        Debug.Log(Enum.GetName(typeof(PlayerType), type));
+        if(type == PlayerType.Target)
+        {
+            agent = Instantiate(_targetPref.gameObject, Vector3.zero, Quaternion.identity).GetComponent<AgentMovement>();
+            agent.SetCamera(Instantiate(_followCamPref.gameObject, agent.transform).GetComponent<CinemachineVirtualCamera>());
+
+        }
+        else
+        {
+            agent = Instantiate(_chaserPref.gameObject, Vector3.zero, Quaternion.identity).GetComponent<AgentMovement>();
+            agent.SetCamera(Instantiate(_followCamPref.gameObject, agent.transform).GetComponent<CinemachineVirtualCamera>());
+        }
+        _player = agent.transform;
     }
 }

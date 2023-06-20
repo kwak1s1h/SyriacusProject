@@ -1,3 +1,4 @@
+import { RoomState } from "../Room/Room";
 import RoomManager from "../Room/RoomManager";
 import Session from "../Session/Session";
 import { PacketHandler } from "../packet/PacketManager";
@@ -10,7 +11,7 @@ module.exports = {
         let res = new Packet.JoinRoomRes();
         let room = RoomManager.Instance.getRoom(req.roomName);
         console.log(room?.name, room?.maxCnt, room?.memberCnt);
-        if(room && !session.room && room.maxCnt > room.memberCnt) 
+        if(room && !session.room && room.maxCnt > room.memberCnt && room.roomState == RoomState.LOBBY) 
         {
             room.join(session);
             res.success = true;

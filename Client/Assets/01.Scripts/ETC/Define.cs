@@ -6,7 +6,8 @@ using UnityEngine;
 public static class Define
 {
     private static CinemachineVirtualCamera _cmVCam;
-    public static CinemachineVirtualCamera CmVCam 
+    #nullable enable
+    public static CinemachineVirtualCamera? CmVCam 
     {
         get 
         {
@@ -15,6 +16,7 @@ public static class Define
             return _cmVCam;
         }
     }
+    #nullable disable
 
     private static Camera _mainCam;
     public static Camera MainCam

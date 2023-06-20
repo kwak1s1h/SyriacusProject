@@ -45,6 +45,15 @@ public class PacketManager
 
         _OnRecv.Add(MSGID.Quitroom, MakePacket<QuitRoom>);
         _Handlers.Add(MSGID.Quitroom, new QuitRoomHandler());
+
+        _OnRecv.Add(MSGID.Playgameres, MakePacket<PlayGameRes>);
+        _Handlers.Add(MSGID.Playgameres, new PlayGameResHandler());
+
+        _OnRecv.Add(MSGID.Confirmload, MakePacket<ConfirmLoad>);
+        _Handlers.Add(MSGID.Confirmload, new ConfirmLoadHandler());
+
+        _OnRecv.Add(MSGID.Setplayer, MakePacket<SetPlayer>);
+        _Handlers.Add(MSGID.Setplayer, new SetPlayerHandler());
     }
 
     public IPacketHandler GetPacketHandler(ushort id)

@@ -18,6 +18,7 @@ enum MSGID {
     PLAYGAMEREQ = 12;
     PLAYGAMERES = 13;
     SCENEREADY = 14;
+    CONFIRMLOAD = 15;
 }
 
 message MsgBox {
@@ -91,6 +92,15 @@ message PlayGameReq {
 
 message PlayGameRes {
     bool success = 1;
+    PlayerType type = 2;
 }
 
 message SceneReady {}
+
+message ConfirmLoad {}
+
+enum PlayerType {
+    NONE = 0;
+    TARGET = 1;
+    CHASER = 2;
+}

@@ -5,16 +5,16 @@ import { MSGID, PlayGameRes } from "../packet/packet";
 const GamePlayReqHandler: PacketHandler = {
     code: MSGID.PLAYGAMEREQ,
     handle: function (session: Session, data: Uint8Array): void {
-        let res = new PlayGameRes();
+        let res = new PlayGameRes({success: true});
         if(session.room)
         {
             if(session.room.memberCnt <= 1)
             {
-                res.
-                session.sendData();
+                res.success = false;
+                session.sendData(res.serialize(), MSGID.PLAYGAMERES);
             }
-            let play = new PlayGame();
-            session.room.broadcast(play.serialize(), MSGID.PLAYGAME);
+            else
+                session.room.broadcast(res.serialize(), MSGID.PLAYGAMERES);
         }
     }
 }
