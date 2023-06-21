@@ -13,14 +13,13 @@ public class GameManager : MonoBehaviour
     private ManagerUI _managerUI;
     private LoadingUI _loadingUI;
 
-    private Transform _player;
-    public Transform Player => _player;
+    private AgentMovement _player;
+    public AgentMovement Player => _player;
 
     [SerializeField] private string hostname = "localhost";
     [SerializeField] private int port = 30000;
 
     [SerializeField] private AgentMovement _targetPref, _chaserPref;
-    [SerializeField] private CinemachineVirtualCamera _followCamPref;
 
     private void Awake()
     {
@@ -103,15 +102,15 @@ public class GameManager : MonoBehaviour
         Debug.Log(Enum.GetName(typeof(PlayerType), type));
         if(type == PlayerType.Target)
         {
-            agent = Instantiate(_targetPref.gameObject, Vector3.zero, Quaternion.identity).GetComponent<AgentMovement>();
-            agent.SetCamera(Instantiate(_followCamPref.gameObject, agent.transform).GetComponent<CinemachineVirtualCamera>());
+            agent = Instantiate(_targetPref.gameObject, Vector3.up * 2, Quaternion.identity).GetComponent<AgentMovement>();
 
         }
         else
         {
-            agent = Instantiate(_chaserPref.gameObject, Vector3.zero, Quaternion.identity).GetComponent<AgentMovement>();
-            agent.SetCamera(Instantiate(_followCamPref.gameObject, agent.transform).GetComponent<CinemachineVirtualCamera>());
+            agent = Instantiate(_chaserPref.gameObject, Vector3.up * 2, Quaternion.identity).GetComponent<AgentMovement>();
         }
-        _player = agent.transform;
+        agent.SetCamera(Define.CmVCam);
+        agent.Type = type;
+        _player = agent;
     }
 }

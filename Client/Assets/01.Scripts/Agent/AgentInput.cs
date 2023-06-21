@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Packet;
 using UnityEngine;
 
 public class AgentInput : MonoBehaviour
@@ -10,8 +11,12 @@ public class AgentInput : MonoBehaviour
     public event Action<Vector2> OnMouseWheelScroll;
     public event Action OnAttackKeyDownInput;
 
+    protected AgentAnimation _agentAnimation;
+    [SerializeField] LayerMask _targetLayer;
+
     protected virtual void Awake()
     {
+        _agentAnimation = GetComponentInChildren<AgentAnimation>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -27,7 +32,14 @@ public class AgentInput : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            OnAttackKeyDownInput?.Invoke();
+            if(GameManager.Instance.Player.Type == Packet.PlayerType.Chaser)
+            {
+                _agentAnimation.SetAttack(true);
+
+                bool result = Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out RaycastHit hit, 1f, _targetLayer);
+                Attack res = new Attack{Success = result};
+                SocketManager.Instance.RegisterSend(MSGID.Attack, res);
+            }
         }
     }
 

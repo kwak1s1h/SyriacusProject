@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Packet;
 using UnityEngine;
 using static Define;
 
@@ -27,6 +28,11 @@ public class AgentMovement : MonoBehaviour
     protected bool _canMove = true;
     public bool CanMove { get => _canMove; set => _canMove = value; }
 
+    private int _sendTick = 0;
+    private float _currentSpeed;
+
+    public PlayerType Type;
+
     protected virtual void Awake()
     {
         _agentInput = GetComponent<AgentInput>();
@@ -42,6 +48,7 @@ public class AgentMovement : MonoBehaviour
 
     public void SetCamera(CinemachineVirtualCamera cmVCam)
     {
+        cmVCam.transform.SetParent(transform);
         _followComponent = cmVCam.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
         cmVCam.Follow = transform;
         cmVCam.LookAt = transform.Find("CameraLook");
@@ -57,6 +64,7 @@ public class AgentMovement : MonoBehaviour
     {
         _movementVelocity = keyInput;
         _agentAnimation.SetSpeed(keyInput.sqrMagnitude);
+        _currentSpeed = keyInput.sqrMagnitude;
     }
 
     public virtual void StopImmediately()
@@ -73,6 +81,7 @@ public class AgentMovement : MonoBehaviour
     protected virtual void SetCameraViewPosition(Vector2 mouseInput)
     {
         if(_followComponent != null)
+        _followComponent.ShoulderOffset.x = 0;
         _followComponent.ShoulderOffset.y = Mathf.Clamp(_followComponent.ShoulderOffset.y + mouseInput.x * _axisSpeedY, 0.2f, 4f);
     }
 
@@ -88,8 +97,21 @@ public class AgentMovement : MonoBehaviour
             _verticalVelocity = _gravity * 0.3f * Time.fixedDeltaTime;
         }
 
+        if(!_canMove) _movementVelocity = Vector3.zero;
+
         Vector3 move = transform.rotation * _movementVelocity + _verticalVelocity * Vector3.up;
         _charController.Move(move);
+
+        _sendTick++;
+        if(_sendTick > 3)
+        {
+            _movementVelocity.Normalize();
+            Position dir = new Position{ X = _movementVelocity.x, Y = _movementVelocity.y, Z =_movementVelocity.z };
+            Position pos = new Position{ X = transform.position.x, Y = transform.position.y, Z = transform.position.z };
+            MoveData data = new MoveData{ Dir = dir, Speed = _currentSpeed, Pos = pos, YRotation = transform.eulerAngles.y };
+            SocketManager.Instance.RegisterSend(MSGID.Movedata, data);
+            _sendTick = 0;
+        }
     }
 
     protected virtual void CalculatePlayerMovement()

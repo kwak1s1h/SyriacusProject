@@ -38,6 +38,7 @@ export default class RoomManager
     removeRoom(name: string): void {
         let room = this.roomMap.get(name);
         if(room) {
+            room.release();
             let removeData = new Packet.RoomRemoved({
                 roomName: room.name,
                 isYourRoom: false
@@ -54,6 +55,7 @@ export default class RoomManager
                 delete session.room;
             });
             this.roomMap.delete(name);
+
         }
     }
 

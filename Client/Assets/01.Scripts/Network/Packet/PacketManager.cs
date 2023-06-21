@@ -52,8 +52,11 @@ public class PacketManager
         _OnRecv.Add(MSGID.Confirmload, MakePacket<ConfirmLoad>);
         _Handlers.Add(MSGID.Confirmload, new ConfirmLoadHandler());
 
-        _OnRecv.Add(MSGID.Setplayer, MakePacket<SetPlayer>);
-        _Handlers.Add(MSGID.Setplayer, new SetPlayerHandler());
+        _OnRecv.Add(MSGID.Updatemovement, MakePacket<UpdateMovement>);
+        _Handlers.Add(MSGID.Updatemovement, new UpdateMovementHandler());
+
+        _OnRecv.Add(MSGID.Setstop, MakePacket<SetStop>);
+        _Handlers.Add(MSGID.Setstop, new SetStopHandler());
     }
 
     public IPacketHandler GetPacketHandler(ushort id)

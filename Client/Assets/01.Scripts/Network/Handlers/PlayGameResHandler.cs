@@ -11,7 +11,13 @@ public class PlayGameResHandler : IPacketHandler
         PlayGameRes res = packet as PlayGameRes;
         if(res.Success)
         {
-            GameManager.Instance.LoadSceneAsync("Game", true);
+            GameManager.Instance.LoadSceneAsync("Game", true, (oper) => {
+                GameManager.Instance.CreatePlayer(res.Type);
+                foreach(Player p in res.Others)
+                {
+                    RemoteManager.Instance.CreateRemote(p.Type, p.Name, p.SpawnPos);
+                }
+            });
             LobbyUI.Instance.SetCurrentWindow(null);
         }
         else

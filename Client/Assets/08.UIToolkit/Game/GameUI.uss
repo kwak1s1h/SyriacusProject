@@ -1,0 +1,7 @@
+#Stop.on {
+    visibility: visible;
+}
+
+#Stop {
+    visibility: hidden;
+}

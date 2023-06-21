@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1857501953257635681}
   - component: {fileID: 1857501953257635680}
   - component: {fileID: 1857501953257635686}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,6 +64,7 @@ MonoBehaviour:
   _axisSpeedY: 0.05
   _moveSpeed: 5
   _zoomSmooth: 0.1
+  Type: 0
 --- !u!143 &1857501953257635686
 CharacterController:
   m_ObjectHideFlags: 0

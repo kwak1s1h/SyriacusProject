@@ -1,5 +1,5 @@
 import WS, { RawData } from "ws";
-import { MSGID, PlayerType, Position } from "../packet/packet";
+import { MSGID, MoveData, PlayerType, Position } from "../packet/packet";
 import PacketManager from "../packet/PacketManager";
 import Room from "../Room/Room";
 import { types } from "../Types";
@@ -15,6 +15,7 @@ export default class Session
 
     // InGame Data
     position: Position;
+    dir: Position;
     speed: number = 0;
     yRotation: number = 0;
     playerType: PlayerType;
@@ -25,7 +26,7 @@ export default class Session
         this.state = SessionState.NONE;
         this.id = id;
 
-        this.position = new Position({x: 0, y: 0, z: 0});
+        this.position = this.dir = new Position({x: 0, y: 0, z: 0});
         this.speed = 0;
         this.playerType = PlayerType.NONE;
     }
@@ -70,6 +71,16 @@ export default class Session
             room: this.room?.name
         };
         return info;
+    }
+
+    get moveData(): MoveData {
+        return new MoveData({
+            dir: this.dir, 
+            pos: this.position, 
+            speed: this.speed, 
+            yRotation: this.yRotation,
+            id: this.id
+        });
     }
 }
 

@@ -59,7 +59,7 @@ export default class Room
         }
         else 
         {
-
+            
         }
     }
 
@@ -75,11 +75,13 @@ export default class Room
 
         this.updateInterval = setInterval(() => {
             this.update();
-        });
+        }, 30);
     }
 
     update(): void {
-
+        let data = new Packet.UpdateMovement();
+        data.list = this.members.map(s => s.moveData);
+        this.broadcast(data.serialize(), Packet.MSGID.UPDATEMOVEMENT);
     }
 
     release(): void {

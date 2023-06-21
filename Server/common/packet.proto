@@ -19,6 +19,9 @@ enum MSGID {
     PLAYGAMERES = 13;
     SCENEREADY = 14;
     CONFIRMLOAD = 15;
+    UPDATEMOVEMENT = 16;
+    SETSTOP = 17;
+    ATTACK = 18;
 }
 
 message MsgBox {
@@ -85,6 +88,12 @@ message Room {
     int32 maxCount = 3;
 }
 
+message Player {
+    PlayerType type = 1;
+    string name = 2;
+    Position spawnPos = 3;
+}
+
 message PlayGameReq {
     int32 playTime = 1;
     int32 targetHp = 2;
@@ -93,6 +102,21 @@ message PlayGameReq {
 message PlayGameRes {
     bool success = 1;
     PlayerType type = 2;
+    repeated Player others = 3;
+}
+
+message UpdateMovement {
+    repeated MoveData list = 1;
+}
+
+message SetStop {
+    bool value = 1;
+    string id = 2;
+}
+
+message Attack {
+    bool success = 1;
+    string id = 2;
 }
 
 message SceneReady {}
